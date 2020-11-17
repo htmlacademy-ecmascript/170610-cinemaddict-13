@@ -1,7 +1,9 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Аверин](https://up.htmlacademy.ru/ecmascript/13/user/170610).
-* Наставник: `Неизвестно`.
+* Наставник: [
+Евгений
+Лепёшкин](https://htmlacademy.ru/profile/id144641).
 
 ---
 
