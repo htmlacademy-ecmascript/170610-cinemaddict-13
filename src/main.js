@@ -5,6 +5,7 @@ import {createFilmsTemplate} from "./view/films.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
 import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
+import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
@@ -51,5 +52,11 @@ filmsListExtraElements.forEach((element) => {
 
 });
 
-const footerStatisticsElement = siteBodyElement.querySelector(`.footer__statistics`);
+const footerElement = siteBodyElement.querySelector(`.footer`);
+
+const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
 render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
+
+render(footerElement, createFilmDetailsPopupTemplate(), `afterend`);
+const filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
+filmDetailsPopupElement.classList.add(`visually-hidden`);
