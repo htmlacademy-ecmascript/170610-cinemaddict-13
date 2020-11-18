@@ -3,7 +3,8 @@ import {createMainNavigationTemplate} from "./view/main-navigation.js";
 import {createSortTemplate} from "./view/sort.js";
 import {createFilmsTemplate} from "./view/films.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
-import {createShowMoreButtonTemplate} from "./view/show-more-button";
+import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
+import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
@@ -50,3 +51,5 @@ filmsListExtraElements.forEach((element) => {
 
 });
 
+const footerStatisticsElement = siteBodyElement.querySelector(`.footer__statistics`);
+render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
