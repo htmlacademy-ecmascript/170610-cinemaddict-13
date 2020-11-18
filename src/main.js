@@ -53,7 +53,6 @@ filmsListExtraElements.forEach((element) => {
 });
 
 const footerElement = siteBodyElement.querySelector(`.footer`);
-
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
 render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
 
