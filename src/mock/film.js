@@ -3,6 +3,10 @@ import {getRandom, getRandomInteger, shuffleArray, randomIndex} from "../mock/ut
 const MAX_RATING = 10;
 const MIN_RANDOM_YEAR = 1895;
 const MAX_RANDOM_YEAR = 2020;
+const MIN_RANDOM_HOUR = 1;
+const MAX_RANDOM_HOUR = 3;
+const MIN_RANDOM_MINUTE = 1;
+const MAX_RANDOM_MINUTE = 59;
 const MIN_RANDOM_SENTENCES = 1;
 const MAX_RANDOM_SENTENCES = 5;
 
@@ -21,6 +25,15 @@ const generateRating = () => {
 const generateYear = () => {
   const year = getRandomInteger(MIN_RANDOM_YEAR, MAX_RANDOM_YEAR);
   return year;
+};
+
+const generateDuration = () => {
+  const duration = {
+    hour: getRandomInteger(MIN_RANDOM_HOUR, MAX_RANDOM_HOUR),
+    minute: getRandomInteger(MIN_RANDOM_MINUTE, MAX_RANDOM_MINUTE),
+  };
+
+  return duration;
 };
 
 const generateGenre = () => {
@@ -50,7 +63,7 @@ export const generateFilm = () => {
     title: generateTitle(),
     rating: generateRating(),
     year: generateYear(),
-    duration: `1h 55m`,
+    duration: generateDuration(),
     genre: generateGenre(),
     poster: `./images/posters/${generatePoster()}`,
     description: generateDescription(),
