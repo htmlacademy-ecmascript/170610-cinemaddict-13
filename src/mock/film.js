@@ -1,13 +1,15 @@
-import {getRandom, getRandomInteger, shuffleArray} from "../mock/utils.js";
+import {getRandom, getRandomInteger, shuffleArray, randomIndex} from "../mock/utils.js";
 
+const MAX_RATING = 10;
+const MIN_RANDOM_YEAR = 1895;
+const MAX_RANDOM_YEAR = 2020;
 const MIN_RANDOM_SENTENCES = 1;
 const MAX_RANDOM_SENTENCES = 5;
-const MAX_RATING = 10;
 
 const generateTitle = () => {
   const textTitle = `Побег из Шоушенка; Крёстный отец; Крёстный отец 2; Тёмный рыцарь; 12 разгневанных мужчин; Список Шиндлера; Властелин колец: Возвращение короля; Криминальное чтиво; Хороший, плохой, злой; Властелин колец: Братство Кольца; Бойцовский клуб; Форрест Гамп; Начало; Властелин колец: Две крепости; Звёздные войны. Эпизод V: Империя наносит ответный удар; Матрица; Славные парни; Пролетая над гнездом кукушки; Семь самураев; Семь; Жизнь прекрасна; Город Бога; Молчание ягнят; Эта прекрасная жизнь; Звёздные войны. Эпизод IV: Новая надежда; Спасти рядового Райана; Унесённые призраками; Зелёная миля; Паразиты; Интерстеллар; Леон; Подозрительные лица; Харакири; Король Лев; Назад в будущее; Пианист; Терминатор 2: Судный день; Американская история Икс; Новые времена; Психо; Гладиатор; Огни большого города; Отступники; 1+1; Одержимость; Гамильтон; Престиж; Могила светлячков; Однажды на Диком Западе; Касабланка; Новый кинотеатр «Парадизо»; Окно во двор; Чужой; Апокалипсис сегодня`;
   const titles = textTitle.split(`; `);
-  const title = titles[getRandomInteger(0, titles.length - 1)];
+  const title = titles[randomIndex(titles)];
   return title;
 };
 
@@ -16,17 +18,22 @@ const generateRating = () => {
   return rating;
 };
 
+const generateYear = () => {
+  const year = getRandomInteger(MIN_RANDOM_YEAR, MAX_RANDOM_YEAR);
+  return year;
+};
+
 const generateGenre = () => {
   const textGenre = `Аниме; Биографии; Боевики; Вестерны; Военные; Детективы; Детские; Документальные; Драмы; Игры; Исторические; Комедии; Концерты; Короткометражки; Криминал; Мелодрамы; Музыкальные; Мультфильмы; Мюзиклы; Новости; Приключения; Реальное ТВ; Семейные; Спортивные; Ток-шоу; Триллеры; Ужасы; Фантастика; Фильмы-нуар; Фэнтези; Церемонии`;
   const genres = textGenre.split(`;`);
-  const genre = genres[getRandomInteger(0, genres.length - 1)];
+  const genre = genres[randomIndex(genres)];
   return genre;
 };
 
 const generatePoster = () => {
   const textPosters = `made-for-each-other.png; popeye-meets-sinbad.png; sagebrush-trail.jpg; santa-claus-conquers-the-martians.jpg; the-dance-of-life.jpg; the-great-flamarion.jpg; the-man-with-the-golden-arm.jpg`;
   const posters = textPosters.split(`; `);
-  const poster = posters[getRandomInteger(0, posters.length - 1)];
+  const poster = posters[randomIndex(posters)];
   return poster;
 };
 
@@ -42,7 +49,7 @@ export const generateFilm = () => {
   return {
     title: generateTitle(),
     rating: generateRating(),
-    year: `1929`,
+    year: generateYear(),
     duration: `1h 55m`,
     genre: generateGenre(),
     poster: `./images/posters/${generatePoster()}`,

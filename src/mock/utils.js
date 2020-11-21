@@ -18,3 +18,7 @@ export const shuffleArray = (array) => {
     [array[i], array[j]] = [array[j], array[i]];
   }
 };
+
+export const randomIndex = (array) => {
+  return getRandomInteger(0, array.length - 1);
+};
