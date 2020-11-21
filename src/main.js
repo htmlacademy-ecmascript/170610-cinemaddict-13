@@ -30,10 +30,10 @@ const filmsListContainerElement = filmsListElement.querySelector(`.films-list__c
 
 let i = 0;
 
-do {
+while (i < FILMS_CARDS_COUNT) {
   render(filmsListContainerElement, createFilmCardTemplate(), `beforeend`);
   i++;
-} while (i < FILMS_CARDS_COUNT);
+}
 
 render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
 
@@ -45,10 +45,10 @@ filmsListExtraElements.forEach((element) => {
 
   let x = 0;
 
-  do {
+  while (x < FILMS_CARDS_EXTRA_COUNT) {
     render(filmsListExtraContainerElement, createFilmCardTemplate(), `beforeend`);
     x++;
-  } while (x < FILMS_CARDS_EXTRA_COUNT);
+  }
 
 });
 
