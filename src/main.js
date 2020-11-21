@@ -10,7 +10,7 @@ import {generateFilm} from "./mock/film.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
-const MOCK_FILMS_COUNT = 20;
+const MOCK_FILMS_COUNT = 13;
 
 const films = new Array(MOCK_FILMS_COUNT).fill().map(generateFilm);
 
@@ -32,11 +32,34 @@ const filmsListElement = filmsElement.querySelector(`.films-list`);
 
 const filmsListContainerElement = filmsListElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILMS_CARDS_COUNT; i++) {
+let count = FILMS_CARDS_COUNT;
+
+for (let i = 0; i < count; i++) {
   render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
 }
 
 render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
+
+const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+
+const onShowMoreButtonClick = (e) => {
+  e.preventDefault();
+  count += FILMS_CARDS_COUNT;
+
+  while (filmsListContainerElement.firstChild) {
+    filmsListContainerElement.removeChild(filmsListContainerElement.lastChild);
+  }
+
+  for (let i = 0; i < count; i++) {
+    render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+    if (count >= MOCK_FILMS_COUNT) {
+      showMoreButton.classList.add(`visually-hidden`);
+      showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
+    }
+  }
+};
+
+showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);
 
