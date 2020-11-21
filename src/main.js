@@ -8,7 +8,6 @@ import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
 import {generateFilm} from "./mock/film.js";
 
-
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 const MOCK_FILMS_COUNT = 20;

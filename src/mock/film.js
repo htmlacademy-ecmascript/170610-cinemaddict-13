@@ -25,6 +25,13 @@ const generateTitle = () => {
   return title;
 };
 
+const generateGenre = () => {
+  const textGenre = `Аниме; Биографии; Боевики; Вестерны; Военные; Детективы; Детские; Документальные; Драмы; Игры; Исторические; Комедии; Концерты; Короткометражки; Криминал; Мелодрамы; Музыкальные; Мультфильмы; Мюзиклы; Новости; Приключения; Реальное ТВ; Семейные; Спортивные; Ток-шоу; Триллеры; Ужасы; Фантастика; Фильмы-нуар; Фэнтези; Церемонии`;
+  const genres = textGenre.split(`;`);
+  const genre = genres[getRandomInteger(0, genres.length - 1)];
+  return genre;
+};
+
 const generatePoster = () => {
   const textPosters = `made-for-each-other.png; popeye-meets-sinbad.png; sagebrush-trail.jpg; santa-claus-conquers-the-martians.jpg; the-dance-of-life.jpg; the-great-flamarion.jpg; the-man-with-the-golden-arm.jpg`;
   const posters = textPosters.split(`; `);
@@ -46,7 +53,7 @@ export const generateFilm = () => {
     rating: `8.3`,
     year: `1929`,
     duration: `1h 55m`,
-    genre: `Musical`,
+    genre: generateGenre(),
     poster: `./images/posters/${generatePoster()}`,
     description: generateDescription(),
     comments: `5 comments`,
