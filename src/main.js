@@ -7,12 +7,13 @@ import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
 import {generateFilm} from "./mock/film.js";
+import {sortByFieldDescending} from "./mock/utils.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 const MOCK_FILMS_COUNT = 13;
 
-const films = new Array(MOCK_FILMS_COUNT).fill().map(generateFilm);
+const films = new Array(MOCK_FILMS_COUNT).fill(0).map(generateFilm);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -44,6 +45,7 @@ const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 const onShowMoreButtonClick = (e) => {
   e.preventDefault();
+
   count += FILMS_CARDS_COUNT;
 
   while (filmsListContainerElement.firstChild) {
@@ -62,15 +64,21 @@ const onShowMoreButtonClick = (e) => {
 showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);
+const topRatedFilms = films.sort(sortByFieldDescending(`rating`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
+const mostCommentedFilms = films.sort(sortByFieldDescending(`comments`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
 
-filmsListExtraElements.forEach((element) => {
-
+filmsListExtraElements.forEach((element, i) => {
   const filmsListExtraContainerElement = element.querySelector(`.films-list__container`);
 
-  for (let i = 0; i < FILMS_CARDS_EXTRA_COUNT; i++) {
-    render(filmsListExtraContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+  if (i === 0) {
+    for (let x = 0; x < FILMS_CARDS_EXTRA_COUNT; x++) {
+      render(filmsListExtraContainerElement, createFilmCardTemplate(topRatedFilms[x]), `beforeend`);
+    }
+  } else {
+    for (let x = 0; x < FILMS_CARDS_EXTRA_COUNT; x++) {
+      render(filmsListExtraContainerElement, createFilmCardTemplate(mostCommentedFilms[x]), `beforeend`);
+    }
   }
-
 });
 
 const footerElement = siteBodyElement.querySelector(`.footer`);

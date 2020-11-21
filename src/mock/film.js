@@ -9,6 +9,7 @@ const MIN_RANDOM_MINUTE = 1;
 const MAX_RANDOM_MINUTE = 59;
 const MIN_RANDOM_SENTENCES = 1;
 const MAX_RANDOM_SENTENCES = 5;
+const MAX_COMMENTS = 5;
 
 const generateTitle = () => {
   const textTitle = `Побег из Шоушенка; Крёстный отец; Крёстный отец 2; Тёмный рыцарь; 12 разгневанных мужчин; Список Шиндлера; Властелин колец: Возвращение короля; Криминальное чтиво; Хороший, плохой, злой; Властелин колец: Братство Кольца; Бойцовский клуб; Форрест Гамп; Начало; Властелин колец: Две крепости; Звёздные войны. Эпизод V: Империя наносит ответный удар; Матрица; Славные парни; Пролетая над гнездом кукушки; Семь самураев; Семь; Жизнь прекрасна; Город Бога; Молчание ягнят; Эта прекрасная жизнь; Звёздные войны. Эпизод IV: Новая надежда; Спасти рядового Райана; Унесённые призраками; Зелёная миля; Паразиты; Интерстеллар; Леон; Подозрительные лица; Харакири; Король Лев; Назад в будущее; Пианист; Терминатор 2: Судный день; Американская история Икс; Новые времена; Психо; Гладиатор; Огни большого города; Отступники; 1+1; Одержимость; Гамильтон; Престиж; Могила светлячков; Однажды на Диком Западе; Касабланка; Новый кинотеатр «Парадизо»; Окно во двор; Чужой; Апокалипсис сегодня`;
@@ -18,7 +19,7 @@ const generateTitle = () => {
 };
 
 const generateRating = () => {
-  const rating = getRandom(MAX_RATING);
+  const rating = getRandom(MAX_RATING).toFixed(1);
   return rating;
 };
 
@@ -58,6 +59,11 @@ const generateDescription = () => {
   return description.join(`. `);
 };
 
+const generateComments = () => {
+  const comments = new Array(getRandomInteger(0, MAX_COMMENTS));
+  return comments.length;
+};
+
 export const generateFilm = () => {
   return {
     title: generateTitle(),
@@ -65,9 +71,9 @@ export const generateFilm = () => {
     year: generateYear(),
     duration: generateDuration(),
     genre: generateGenre(),
-    poster: `./images/posters/${generatePoster()}`,
+    poster: generatePoster(),
     description: generateDescription(),
-    comments: `5 comments`,
+    comments: generateComments(),
     isWatchlist: false,
     isFavorite: false
   };

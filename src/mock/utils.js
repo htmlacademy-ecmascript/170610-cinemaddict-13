@@ -22,3 +22,7 @@ export const shuffleArray = (array) => {
 export const randomIndex = (array) => {
   return getRandomInteger(0, array.length - 1);
 };
+
+export const sortByFieldDescending = (field) => {
+  return (a, b) => a[field] > b[field] ? -1 : 1;
+};
