@@ -1,28 +1,19 @@
+import {getRandom, getRandomInteger, shuffleArray} from "../mock/utils.js";
+
 const MIN_RANDOM_SENTENCES = 1;
 const MAX_RANDOM_SENTENCES = 5;
-
-// Функция из интернета по генерации случайного числа из диапазона
-// Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
+const MAX_RATING = 10;
 
 const generateTitle = () => {
   const textTitle = `Побег из Шоушенка; Крёстный отец; Крёстный отец 2; Тёмный рыцарь; 12 разгневанных мужчин; Список Шиндлера; Властелин колец: Возвращение короля; Криминальное чтиво; Хороший, плохой, злой; Властелин колец: Братство Кольца; Бойцовский клуб; Форрест Гамп; Начало; Властелин колец: Две крепости; Звёздные войны. Эпизод V: Империя наносит ответный удар; Матрица; Славные парни; Пролетая над гнездом кукушки; Семь самураев; Семь; Жизнь прекрасна; Город Бога; Молчание ягнят; Эта прекрасная жизнь; Звёздные войны. Эпизод IV: Новая надежда; Спасти рядового Райана; Унесённые призраками; Зелёная миля; Паразиты; Интерстеллар; Леон; Подозрительные лица; Харакири; Король Лев; Назад в будущее; Пианист; Терминатор 2: Судный день; Американская история Икс; Новые времена; Психо; Гладиатор; Огни большого города; Отступники; 1+1; Одержимость; Гамильтон; Престиж; Могила светлячков; Однажды на Диком Западе; Касабланка; Новый кинотеатр «Парадизо»; Окно во двор; Чужой; Апокалипсис сегодня`;
   const titles = textTitle.split(`; `);
   const title = titles[getRandomInteger(0, titles.length - 1)];
   return title;
+};
+
+const generateRating = () => {
+  const rating = getRandom(MAX_RATING);
+  return rating;
 };
 
 const generateGenre = () => {
@@ -50,7 +41,7 @@ const generateDescription = () => {
 export const generateFilm = () => {
   return {
     title: generateTitle(),
-    rating: `8.3`,
+    rating: generateRating(),
     year: `1929`,
     duration: `1h 55m`,
     genre: generateGenre(),
