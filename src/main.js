@@ -64,8 +64,11 @@ const onShowMoreButtonClick = (e) => {
 showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);
-const topRatedFilms = films.sort(sortByFieldDescending(`rating`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
-const mostCommentedFilms = films.sort(sortByFieldDescending(`comments`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
+
+const extraFilms = films.slice();
+
+const topRatedFilms = extraFilms.sort(sortByFieldDescending(`rating`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
+const mostCommentedFilms = extraFilms.sort(sortByFieldDescending(`comments`)).slice(0, FILMS_CARDS_EXTRA_COUNT);
 
 filmsListExtraElements.forEach((element, i) => {
   const filmsListExtraContainerElement = element.querySelector(`.films-list__container`);
