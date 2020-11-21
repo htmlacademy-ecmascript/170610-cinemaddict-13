@@ -19,10 +19,19 @@ export const shuffleArray = (array) => {
   }
 };
 
-export const randomIndex = (array) => {
+export const getRandomIndex = (array) => {
   return getRandomInteger(0, array.length - 1);
 };
 
 export const sortByFieldDescending = (field) => {
   return (a, b) => a[field] > b[field] ? -1 : 1;
+};
+
+export const checkIsEmpty = (obj) => {
+  for (let key in obj) {
+    if ({}.hasOwnProperty.call(obj, key)) {
+      return false;
+    }
+  }
+  return true;
 };
