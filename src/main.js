@@ -96,8 +96,13 @@ const filmsListContainerElements = filmsElement.querySelectorAll(`.films-list__c
 filmsListContainerElements.forEach((element) => {
   const onFilmsListContainerElementClick = (e) => {
     e.preventDefault();
+
+    const filmId = e.target.parentNode.id;
+    const film = films.find((item) => item.id === filmId);
+
     if (e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__comments`)) {
-      render(footerElement, createFilmDetailsPopupTemplate(), `afterend`);
+
+      render(footerElement, createFilmDetailsPopupTemplate(film), `afterend`);
       siteBodyElement.classList.add(`modal-open`);
 
       const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);

@@ -1,4 +1,5 @@
 import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "../mock/utils.js";
+import { nanoid } from 'nanoid';
 
 const MAX_RATING = 10;
 const MIN_RANDOM_YEAR = 1895;
@@ -66,6 +67,7 @@ const generateComments = () => {
 
 export const generateFilm = () => {
   return {
+    id: nanoid(),
     title: generateTitle(),
     rating: generateRating(),
     year: generateYear(),
