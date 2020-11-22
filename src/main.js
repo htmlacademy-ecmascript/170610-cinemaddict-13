@@ -92,36 +92,39 @@ const footerElement = siteBodyElement.querySelector(`.footer`);
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
 render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
 
-render(footerElement, createFilmDetailsPopupTemplate(), `afterend`);
-const filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
-filmDetailsPopupElement.classList.add(`visually-hidden`);
-
-const onFilmsListContainerElementClick = (e) => {
-  e.preventDefault();
-  if (e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__comments`)) {
-    filmDetailsPopupElement.classList.remove(`visually-hidden`);
-    siteBodyElement.classList.add(`modal-open`);
-  }
-};
-
-filmsListContainerElement.addEventListener(`click`, onFilmsListContainerElementClick);
-
-const closePopupButton = filmDetailsPopupElement.querySelector(`.film-details__close-btn`);
-
-const onClosePopupButtonClick = (e) => {
-  e.preventDefault();
-  filmDetailsPopupElement.classList.add(`visually-hidden`);
-  siteBodyElement.classList.remove(`modal-open`);
-};
-
-closePopupButton.addEventListener(`click`, onClosePopupButtonClick);
-
-const onFilmDetailsPopupKeydown = (e) => {
-  if (e.code === Key.ESC) {
+const filmsListContainerElements = filmsElement.querySelectorAll(`.films-list__container`);
+filmsListContainerElements.forEach((element) => {
+  const onFilmsListContainerElementClick = (e) => {
     e.preventDefault();
-    filmDetailsPopupElement.classList.add(`visually-hidden`);
-    siteBodyElement.classList.remove(`modal-open`);
-  }
-};
+    if (e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__comments`)) {
+      render(footerElement, createFilmDetailsPopupTemplate(), `afterend`);
+      siteBodyElement.classList.add(`modal-open`);
 
-document.addEventListener(`keydown`, onFilmDetailsPopupKeydown);
+      const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);
+      const closePopupButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
+
+      const onClosePopupButtonClick = (evt) => {
+        evt.preventDefault();
+        filmDetailsElement.remove();
+        siteBodyElement.classList.remove(`modal-open`);
+        closePopupButton.removeEventListener(`click`, onClosePopupButtonClick);
+      };
+
+      closePopupButton.addEventListener(`click`, onClosePopupButtonClick);
+
+
+      const onFilmDetailsPopupKeydown = (event) => {
+        if (event.code === Key.ESC) {
+          event.preventDefault();
+          filmDetailsElement.remove();
+          siteBodyElement.classList.remove(`modal-open`);
+        }
+        document.removeEventListener(`keydown`, onFilmDetailsPopupKeydown);
+      };
+
+      document.addEventListener(`keydown`, onFilmDetailsPopupKeydown);
+    }
+  };
+
+  element.addEventListener(`click`, onFilmsListContainerElementClick);
+});
