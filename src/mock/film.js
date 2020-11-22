@@ -75,6 +75,7 @@ export const generateFilm = () => {
     description: generateDescription(),
     comments: generateComments(),
     isWatchlist: false,
+    isHistory: false,
     isFavorite: false
   };
 };
