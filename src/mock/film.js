@@ -1,5 +1,5 @@
-import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "../mock/utils.js";
-import { nanoid } from 'nanoid';
+import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "./utils";
+import {nanoid} from 'nanoid';
 
 const MAX_RATING = 10;
 const MIN_RANDOM_YEAR = 1895;
@@ -11,10 +11,91 @@ const MAX_RANDOM_MINUTE = 59;
 const MIN_RANDOM_SENTENCES = 1;
 const MAX_RANDOM_SENTENCES = 5;
 const MAX_COMMENTS = 5;
+const MAX_GENRES = 3;
 
 const generateTitle = () => {
-  const textTitle = `Побег из Шоушенка; Крёстный отец; Крёстный отец 2; Тёмный рыцарь; 12 разгневанных мужчин; Список Шиндлера; Властелин колец: Возвращение короля; Криминальное чтиво; Хороший, плохой, злой; Властелин колец: Братство Кольца; Бойцовский клуб; Форрест Гамп; Начало; Властелин колец: Две крепости; Звёздные войны. Эпизод V: Империя наносит ответный удар; Матрица; Славные парни; Пролетая над гнездом кукушки; Семь самураев; Семь; Жизнь прекрасна; Город Бога; Молчание ягнят; Эта прекрасная жизнь; Звёздные войны. Эпизод IV: Новая надежда; Спасти рядового Райана; Унесённые призраками; Зелёная миля; Паразиты; Интерстеллар; Леон; Подозрительные лица; Харакири; Король Лев; Назад в будущее; Пианист; Терминатор 2: Судный день; Американская история Икс; Новые времена; Психо; Гладиатор; Огни большого города; Отступники; 1+1; Одержимость; Гамильтон; Престиж; Могила светлячков; Однажды на Диком Западе; Касабланка; Новый кинотеатр «Парадизо»; Окно во двор; Чужой; Апокалипсис сегодня`;
-  const titles = textTitle.split(`; `);
+  const titles = [
+    {
+      original: `The Shawshank Redemption`,
+      translation: `Побег из Шоушенка`,
+    },
+    {
+      original: `The Godfather`,
+      translation: `Крёстный отец`,
+    },
+    {
+      original: `The Dark Knight`,
+      translation: `Тёмный рыцарь`,
+    },
+    {
+      original: `12 Angry Men`,
+      translation: `12 разгневанных мужчин`,
+    },
+    {
+      original: `Schindler's List`,
+      translation: `Список Шиндлера`,
+    },
+    {
+      original: `Pulp Fiction`,
+      translation: `Криминальное чтиво`,
+    },
+    {
+      original: `Il buono, il brutto, il cattivo`,
+      translation: `Хороший, плохой, злой`,
+    },
+    {
+      original: `Fight Club`,
+      translation: `Бойцовский клуб`,
+    },
+    {
+      original: `Forrest Gump`,
+      translation: `Форрест Гамп`,
+    },
+    {
+      original: `Inception`,
+      translation: `Начало`,
+    },
+    {
+      original: `The Matrix`,
+      translation: `Матрица`,
+    },
+    {
+      original: `The Nice Guys`,
+      translation: `Славные парни`,
+    },
+    {
+      original: `One Flew Over the Cuckoo's Nest`,
+      translation: `Пролетая над гнездом кукушки`,
+    },
+    {
+      original: `Shichinin no samurai`,
+      translation: `Семь самураев`,
+    },
+    {
+      original: `La vita è bella`,
+      translation: `Жизнь прекрасна`,
+    },
+    {
+      original: `The Silence of the Lambs`,
+      translation: `Молчание ягнят`,
+    },
+    {
+      original: `It's a Wonderful Life`,
+      translation: `Эта прекрасная жизнь`,
+    },
+    {
+      original: `Interstellar`,
+      translation: `Интерстеллар`,
+    },
+    {
+      original: `Léon`,
+      translation: `Леон`,
+    },
+    {
+      original: `City Lights`,
+      translation: `Огни большого города`,
+    },
+  ];
   const title = titles[getRandomIndex(titles)];
   return title;
 };
@@ -39,8 +120,98 @@ const generateDuration = () => {
 };
 
 const generateGenre = () => {
-  const textGenre = `Аниме; Биографии; Боевики; Вестерны; Военные; Детективы; Детские; Документальные; Драмы; Игры; Исторические; Комедии; Концерты; Короткометражки; Криминал; Мелодрамы; Музыкальные; Мультфильмы; Мюзиклы; Новости; Приключения; Реальное ТВ; Семейные; Спортивные; Ток-шоу; Триллеры; Ужасы; Фантастика; Фильмы-нуар; Фэнтези; Церемонии`;
-  const genres = textGenre.split(`;`);
+  const genres = [
+    {
+      title: `Аниме`,
+    },
+    {
+      title: `Биографии`,
+    },
+    {
+      title: `Боевики`,
+    },
+    {
+      title: `Вестерны`,
+    },
+    {
+      title: `Военные`,
+    },
+    {
+      title: `Детективы`,
+    },
+    {
+      title: `Детские`,
+    },
+    {
+      title: `Документальные`,
+    },
+    {
+      title: `Драмы`,
+    },
+    {
+      title: `Игры`,
+    },
+    {
+      title: `Исторические`,
+    },
+    {
+      title: `Комедии`,
+    },
+    {
+      title: `Концерты`,
+    },
+    {
+      title: `Короткометражки`,
+    },
+    {
+      title: `Криминал`,
+    },
+    {
+      title: `Мелодрамы`,
+    },
+    {
+      title: `Музыкальные`,
+    },
+    {
+      title: `Мультфильмы`,
+    },
+    {
+      title: `Новости`,
+    },
+    {
+      title: `Приключения`,
+    },
+    {
+      title: `Реальное ТВ`,
+    },
+    {
+      title: `Семейные`,
+    },
+    {
+      title: `Спортивные`,
+    },
+    {
+      title: `Ток-шоу`,
+    },
+    {
+      title: `Триллеры`,
+    },
+    {
+      title: `Ужасы`,
+    },
+    {
+      title: `Фантастика`,
+    },
+    {
+      title: `Фильмы-нуар`,
+    },
+    {
+      title: `Фэнтези`,
+    },
+    {
+      title: `Церемонии`,
+    },
+  ];
   const genre = genres[getRandomIndex(genres)];
   return genre;
 };
@@ -65,6 +236,30 @@ const generateComments = () => {
   return comments.length;
 };
 
+const generateName = (count) => {
+  const textNames = `Éabha Leonard; Erika Calixtus; Timur Medea; Anne Lennox; Freek Irit; Isac Ambrosius; Col Hulderic; Mehmud Mohandas; Edith Yash; Dario Dianna; Sophokles Everette; Kreios Indy; Hannah Stanko; Nalini Satisha; Alfreda Avanti; Katherine Claudius; Burkhard Louise; Ludolf Kadri; Nilda Alessia; Evgenios Aníbal; Edita Aderyn; Carol Sylvain; Ianthe Dragutin; Cáel Chibueze; Roderick Aelius; Om Thalia; Glukel Jon; Terpsichore Dani; Binyamin Josie; Zakiah Mette; Marthe Ilsa; Yeriyahu Ezechiel; Lenka Robert; Theodorus Feliciana; Abdullaahi Seanán`;
+  const mockNames = textNames.split(`; `);
+  shuffleArray(mockNames);
+  const names = mockNames.slice(0, count);
+  return names.join(`, `);
+};
+
+const generateCountry = () => {
+  const textCountries = `Russia; Rwanda; Saint Kitts and Nevis; Saint Lucia; Saint Vincent and the Grenadines; Samoa; San Marino; Sao Tome and Principe; Saudi Arabia; Senegal; Serbia; Seychelles; Sierra Leone; Singapore; Slovakia; Slovenia; USA; Syria; Tajikistan; Tanzania; Thailand; Timor-Leste; Togo; Tonga; Trinidad and Tobago; Tunisia; Turkey; Turkmenistan; Tuvalu; Uganda; Ukraine`;
+  const mockCountries = textCountries.split(`; `);
+  shuffleArray(mockCountries);
+  const country = mockCountries.slice(0, 1);
+  return country;
+};
+
+const generateAgeRating = () => {
+  const textAgeRating = `0+; 6+; 12+; 16+; 18+`;
+  const mockAgeRating = textAgeRating.split(`; `);
+  shuffleArray(mockAgeRating);
+  const ageRating = mockAgeRating.slice(0, 1);
+  return ageRating;
+};
+
 export const generateFilm = () => {
   return {
     id: nanoid(),
@@ -72,10 +267,15 @@ export const generateFilm = () => {
     rating: generateRating(),
     year: generateYear(),
     duration: generateDuration(),
-    genre: generateGenre(),
+    genre: new Array(MAX_GENRES).fill(0).map(generateGenre),
     poster: generatePoster(),
     description: generateDescription(),
     comments: generateComments(),
+    director: generateName(1),
+    writers: generateName(3),
+    actors: generateName(4),
+    country: generateCountry(),
+    ageRating: generateAgeRating(),
     isWatchlist: false,
     isHistory: false,
     isFavorite: false

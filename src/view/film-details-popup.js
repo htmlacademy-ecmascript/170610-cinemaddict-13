@@ -1,6 +1,6 @@
 export const createFilmDetailsPopupTemplate = (film) => {
 
-  const {title, rating, duration, genre, poster, description} = film;
+  const {title, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -12,14 +12,14 @@ export const createFilmDetailsPopupTemplate = (film) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${title}">
 
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${ageRating}</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${title}</h3>
-              <p class="film-details__title-original">Original: The Great Flamarion</p>
+              <h3 class="film-details__title">${title.translation}</h3>
+              <p class="film-details__title-original">${title.original}</p>
             </div>
 
             <div class="film-details__rating">
@@ -30,15 +30,15 @@ export const createFilmDetailsPopupTemplate = (film) => {
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">Anthony Mann</td>
+              <td class="film-details__cell">${director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+              <td class="film-details__cell">${writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+              <td class="film-details__cell">${actors}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
@@ -50,14 +50,14 @@ export const createFilmDetailsPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">USA</td>
+              <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">Film-Noir</span>
-                <span class="film-details__genre">Mystery</span></td>
+                <span class="film-details__genre">${genre[0].title}</span>
+                <span class="film-details__genre">${genre[1].title}</span>
+                <span class="film-details__genre">${genre[2].title}</span></td>
             </tr>
           </table>
 
