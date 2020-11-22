@@ -62,7 +62,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
           </table>
 
           <p class="film-details__film-description">
-            ${description}
+            ${description}.
           </p>
         </div>
       </div>
