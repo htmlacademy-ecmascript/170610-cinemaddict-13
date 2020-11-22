@@ -13,6 +13,10 @@ const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 const MOCK_FILMS_COUNT = 13;
 
+const Key = {
+  ESC: `Escape`,
+};
+
 const films = new Array(MOCK_FILMS_COUNT).fill(0).map(generateFilm);
 
 const render = (container, template, place) => {
@@ -91,3 +95,33 @@ render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
 render(footerElement, createFilmDetailsPopupTemplate(), `afterend`);
 const filmDetailsPopupElement = siteBodyElement.querySelector(`.film-details`);
 filmDetailsPopupElement.classList.add(`visually-hidden`);
+
+const onFilmsListContainerElementClick = (e) => {
+  e.preventDefault();
+  if (e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__comments`)) {
+    filmDetailsPopupElement.classList.remove(`visually-hidden`);
+    siteBodyElement.classList.add(`modal-open`);
+  }
+};
+
+filmsListContainerElement.addEventListener(`click`, onFilmsListContainerElementClick);
+
+const closePopupButton = filmDetailsPopupElement.querySelector(`.film-details__close-btn`);
+
+const onClosePopupButtonClick = (e) => {
+  e.preventDefault();
+  filmDetailsPopupElement.classList.add(`visually-hidden`);
+  siteBodyElement.classList.remove(`modal-open`);
+};
+
+closePopupButton.addEventListener(`click`, onClosePopupButtonClick);
+
+const onFilmDetailsPopupKeydown = (e) => {
+  if (e.code === Key.ESC) {
+    e.preventDefault();
+    filmDetailsPopupElement.classList.add(`visually-hidden`);
+    siteBodyElement.classList.remove(`modal-open`);
+  }
+};
+
+document.addEventListener(`keydown`, onFilmDetailsPopupKeydown);
