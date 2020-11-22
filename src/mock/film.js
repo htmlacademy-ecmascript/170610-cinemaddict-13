@@ -260,6 +260,11 @@ const generateAgeRating = () => {
   return ageRating;
 };
 
+const generateRandomBoolean = (ratio) => {
+  const randomBoolean = Math.random() < ratio;
+  return randomBoolean;
+};
+
 export const generateFilm = () => {
   return {
     id: nanoid(),
@@ -276,8 +281,8 @@ export const generateFilm = () => {
     actors: generateName(4),
     country: generateCountry(),
     ageRating: generateAgeRating(),
-    isWatchlist: false,
-    isHistory: false,
-    isFavorite: false
+    isWatched: generateRandomBoolean(0.5),
+    isWatchlist: generateRandomBoolean(0.3),
+    isFavorite: generateRandomBoolean(0.2),
   };
 };
