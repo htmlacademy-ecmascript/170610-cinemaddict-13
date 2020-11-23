@@ -107,7 +107,8 @@ filmsListContainerElements.forEach((element) => {
       render(footerElement, createFilmDetailsPopupTemplate(film), `afterend`);
       siteBodyElement.classList.add(`modal-open`);
 
-      const commentsListElement = siteBodyElement.querySelector(`.film-details__comments-list`);
+      const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);
+      const commentsListElement = filmDetailsElement.querySelector(`.film-details__comments-list`);
 
       const commentsCount = film.comments;
       const comments = new Array(commentsCount).fill(0).map(generateComment);
@@ -116,7 +117,9 @@ filmsListContainerElements.forEach((element) => {
         render(commentsListElement, createCommentTemplate(comments[i]), `afterend`);
       }
 
-      const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);
+      const commentsCountElement = filmDetailsElement.querySelector(`.film-details__comments-count`);
+      commentsCountElement.textContent = commentsCount;
+
       const closePopupButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
 
       const onClosePopupButtonClick = (evt) => {
