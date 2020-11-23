@@ -25,6 +25,12 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
+const removeActiveClass = (array, className) => {
+  array.forEach((item) => {
+    item.classList.remove(className);
+  });
+};
+
 const clearRenderedFilms = () => {
   while (filmsListContainerElement.firstChild) {
     filmsListContainerElement.removeChild(filmsListContainerElement.lastChild);
@@ -67,6 +73,8 @@ let count = FILMS_CARDS_COUNT;
 
 const onSortMenuItemClick = (e) => {
   e.preventDefault();
+  removeActiveClass(sortMenuItems, `sort__button--active`);
+  e.target.classList.toggle(`sort__button--active`);
 
   switch (e.target.textContent) {
     case `Sort by default`:
@@ -123,10 +131,11 @@ const onShowMoreButtonClick = (e) => {
 
   for (let i = 0; i < count; i++) {
     render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-    if (count >= MAX_MOCK_FILMS_COUNT) {
-      showMoreButton.classList.add(`visually-hidden`);
-      showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
-    }
+  }
+
+  if (count >= MAX_MOCK_FILMS_COUNT) {
+    showMoreButton.classList.add(`visually-hidden`);
+    showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
   }
 };
 
