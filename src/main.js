@@ -92,7 +92,7 @@ filmsListExtraElements.forEach((element, i) => {
 
 const footerElement = siteBodyElement.querySelector(`.footer`);
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
-render(footerStatisticsElement, createFooterStatisticsTemplate(), `beforeend`);
+render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`);
 
 const filmsListContainerElements = filmsElement.querySelectorAll(`.films-list__container`);
 filmsListContainerElements.forEach((element) => {
