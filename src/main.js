@@ -7,14 +7,13 @@ import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
 import {createCommentTemplate} from "./view/comment.js";
-import {getRandomInteger, sortByFieldDescending} from "./mock/utils.js";
+import {sortByFieldDescending} from "./mock/utils.js";
 import {generateFilm} from "./mock/film.js";
 import {generateComment} from "./mock/comment.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 const MAX_MOCK_FILMS_COUNT = 13;
-const MAX_MOCK_COMMENTS_COUNT = 5;
 
 const Key = {
   ESC: `Escape`,
@@ -110,7 +109,7 @@ filmsListContainerElements.forEach((element) => {
 
       const commentsListElement = siteBodyElement.querySelector(`.film-details__comments-list`);
 
-      let commentsCount = getRandomInteger(0, MAX_MOCK_COMMENTS_COUNT);
+      const commentsCount = film.comments;
       const comments = new Array(commentsCount).fill(0).map(generateComment);
 
       for (let i = 0; i < comments.length; i++) {
