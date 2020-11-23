@@ -1,10 +1,10 @@
 export const createCommentTemplate = (comment) => {
 
-  const {date, author, message} = comment;
+  const {date, author, message, emotion} = comment;
 
   return `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
-              <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
+              <img src="./images/emoji/${emotion}" width="55" height="55" alt="emoji-smile">
             </span>
             <div>
               <p class="film-details__comment-text">${message}</p>
