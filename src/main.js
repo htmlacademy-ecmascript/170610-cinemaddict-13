@@ -6,18 +6,21 @@ import {createFilmCardTemplate} from "./view/film-card.js";
 import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
+import {createCommentTemplate} from "./view/comment.js";
+import {getRandomInteger, sortByFieldDescending} from "./mock/utils.js";
 import {generateFilm} from "./mock/film.js";
-import {sortByFieldDescending} from "./mock/utils.js";
+import {generateComment} from "./mock/comment.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
-const MOCK_FILMS_COUNT = 13;
+const MAX_MOCK_FILMS_COUNT = 13;
+const MAX_MOCK_COMMENTS_COUNT = 5;
 
 const Key = {
   ESC: `Escape`,
 };
 
-const films = new Array(MOCK_FILMS_COUNT).fill(0).map(generateFilm);
+const films = new Array(MAX_MOCK_FILMS_COUNT).fill(0).map(generateFilm);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -58,7 +61,7 @@ const onShowMoreButtonClick = (e) => {
 
   for (let i = 0; i < count; i++) {
     render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-    if (count >= MOCK_FILMS_COUNT) {
+    if (count >= MAX_MOCK_FILMS_COUNT) {
       showMoreButton.classList.add(`visually-hidden`);
       showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
     }
@@ -105,6 +108,15 @@ filmsListContainerElements.forEach((element) => {
       render(footerElement, createFilmDetailsPopupTemplate(film), `afterend`);
       siteBodyElement.classList.add(`modal-open`);
 
+      const commentsListElement = siteBodyElement.querySelector(`.film-details__comments-list`);
+
+      let commentsCount = getRandomInteger(0, MAX_MOCK_COMMENTS_COUNT);
+      const comments = new Array(commentsCount).fill(0).map(generateComment);
+
+      for (let i = 0; i < comments.length; i++) {
+        render(commentsListElement, createCommentTemplate(comments[i]), `afterend`);
+      }
+
       const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);
       const closePopupButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
 
@@ -116,7 +128,6 @@ filmsListContainerElements.forEach((element) => {
       };
 
       closePopupButton.addEventListener(`click`, onClosePopupButtonClick);
-
 
       const onFilmDetailsPopupKeydown = (event) => {
         if (event.code === Key.ESC) {

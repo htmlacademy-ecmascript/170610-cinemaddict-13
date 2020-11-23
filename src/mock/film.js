@@ -223,7 +223,7 @@ const generatePoster = () => {
   return poster;
 };
 
-const generateDescription = () => {
+export const generateDescription = () => {
   const textDescription = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus`;
   const descriptions = textDescription.split(`. `);
   shuffleArray(descriptions);
@@ -236,7 +236,7 @@ const generateComments = () => {
   return comments.length;
 };
 
-const generateName = (count) => {
+export const generateName = (count) => {
   const textNames = `Éabha Leonard; Erika Calixtus; Timur Medea; Anne Lennox; Freek Irit; Isac Ambrosius; Col Hulderic; Mehmud Mohandas; Edith Yash; Dario Dianna; Sophokles Everette; Kreios Indy; Hannah Stanko; Nalini Satisha; Alfreda Avanti; Katherine Claudius; Burkhard Louise; Ludolf Kadri; Nilda Alessia; Evgenios Aníbal; Edita Aderyn; Carol Sylvain; Ianthe Dragutin; Cáel Chibueze; Roderick Aelius; Om Thalia; Glukel Jon; Terpsichore Dani; Binyamin Josie; Zakiah Mette; Marthe Ilsa; Yeriyahu Ezechiel; Lenka Robert; Theodorus Feliciana; Abdullaahi Seanán`;
   const mockNames = textNames.split(`; `);
   shuffleArray(mockNames);
