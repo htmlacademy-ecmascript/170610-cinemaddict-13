@@ -31,6 +31,28 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 render(siteHeaderElement, createProfileTemplate(), `beforeend`);
 render(siteMainElement, createMainNavigationTemplate(), `afterbegin`);
+
+const watchlistFilms = films.filter((item) => {
+  return item.isWatchlist === true;
+});
+
+const watchlistElement = siteMainElement.querySelector(`a[href="#watchlist"]`);
+watchlistElement.children[0].textContent = watchlistFilms.length;
+
+const watchedFilms = films.filter((item) => {
+  return item.isWatched === true;
+});
+
+const historyElement = siteMainElement.querySelector(`a[href="#history"]`);
+historyElement.children[0].textContent = watchedFilms.length;
+
+const favoritesFilms = films.filter((item) => {
+  return item.isFavorite === true;
+});
+
+const favoritesElement = siteMainElement.querySelector(`a[href="#favorites"]`);
+favoritesElement.children[0].textContent = favoritesFilms.length;
+
 render(siteMainElement, createSortTemplate(), `beforeend`);
 render(siteMainElement, createFilmsTemplate(), `beforeend`);
 
