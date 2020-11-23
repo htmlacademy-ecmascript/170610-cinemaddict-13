@@ -116,8 +116,7 @@ const filmsListElement = filmsElement.querySelector(`.films-list`);
 
 const filmsListContainerElement = filmsListElement.querySelector(`.films-list__container`);
 
-let count = FILMS_CARDS_COUNT;
-for (let i = 0; i < count; i++) {
+for (let i = 0; i < FILMS_CARDS_COUNT; i++) {
   render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
 }
 
@@ -127,10 +126,9 @@ const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 const onShowMoreButtonClick = (e) => {
   e.preventDefault();
-
-  count += FILMS_CARDS_COUNT;
-
   clearRenderedFilms();
+
+  let count = FILMS_CARDS_COUNT;
 
   for (let i = 0; i < count; i++) {
     render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
@@ -143,6 +141,7 @@ const onShowMoreButtonClick = (e) => {
 };
 
 showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
+
 
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);
 
