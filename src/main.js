@@ -13,7 +13,7 @@ import {generateComment} from "./mock/comment.js";
 
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
-const MAX_MOCK_FILMS_COUNT = 13;
+const MAX_MOCK_FILMS_COUNT = 14;
 
 const Key = {
   ESC: `Escape`,
@@ -84,9 +84,20 @@ const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 let filmsrenderCount = FILMS_CARDS_COUNT;
 let delta = MAX_MOCK_FILMS_COUNT - filmsrenderCount;
 
-for (let i = 0; i < filmsrenderCount; i++) {
-  render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-}
+const renderStartFilmsCards = (array) => {
+  if (array.length <= FILMS_CARDS_COUNT) {
+    for (let i = 0; i < films.length; i++) {
+      render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
+    }
+    showMoreButton.classList.add(`visually-hidden`);
+  } else {
+    for (let i = 0; i < filmsrenderCount; i++) {
+      render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
+    }
+  }
+};
+
+renderStartFilmsCards(films);
 
 const showFilmsPortions = (array) => {
   delta = array.length - filmsrenderCount;
@@ -130,25 +141,25 @@ const onSortMenuItemClick = (e) => {
       clearRenderedFilms();
       filmsrenderCount = 5;
       films.sort(sortByFieldAscending(`uid`));
-      for (let i = 0; i < filmsrenderCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-      }
+
+      renderStartFilmsCards(films);
+
       break;
     case `Sort by date`:
       clearRenderedFilms();
       filmsrenderCount = 5;
       films.sort(sortByFieldDescending(`year`));
-      for (let i = 0; i < filmsrenderCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-      }
+
+      renderStartFilmsCards(films);
+
       break;
     case `Sort by rating`:
       clearRenderedFilms();
       filmsrenderCount = 5;
       films.sort(sortByFieldDescending(`rating`));
-      for (let i = 0; i < filmsrenderCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-      }
+
+      renderStartFilmsCards(films);
+
       break;
     default:
       break;
