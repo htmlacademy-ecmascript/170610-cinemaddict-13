@@ -7,7 +7,7 @@ import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmDetailsPopupTemplate} from "./view/film-details-popup.js";
 import {createCommentTemplate} from "./view/comment.js";
-import {sortByFieldDescending} from "./mock/utils.js";
+import {sortByFieldAscending, sortByFieldDescending} from "./mock/utils.js";
 import {generateFilm} from "./mock/film.js";
 import {generateComment} from "./mock/comment.js";
 
@@ -81,7 +81,7 @@ const onSortMenuItemClick = (e) => {
       clearRenderedFilms();
       count = FILMS_CARDS_COUNT;
 
-      const byDefaultFilms = films.slice();
+      const byDefaultFilms = films.sort(sortByFieldAscending(`uid`));
 
       for (let i = 0; i < sortCount; i++) {
         render(filmsListContainerElement, createFilmCardTemplate(byDefaultFilms[i]), `beforeend`);
@@ -91,7 +91,7 @@ const onSortMenuItemClick = (e) => {
       clearRenderedFilms();
       count = FILMS_CARDS_COUNT;
 
-      const byDateFilms = films.slice().sort(sortByFieldDescending(`year`));
+      const byDateFilms = films.sort(sortByFieldDescending(`year`));
       for (let i = 0; i < sortCount; i++) {
         render(filmsListContainerElement, createFilmCardTemplate(byDateFilms[i]), `beforeend`);
       }
@@ -100,7 +100,7 @@ const onSortMenuItemClick = (e) => {
       clearRenderedFilms();
       count = FILMS_CARDS_COUNT;
 
-      const byRatingFilms = films.slice().sort(sortByFieldDescending(`rating`));
+      const byRatingFilms = films.sort(sortByFieldDescending(`rating`));
       for (let i = 0; i < sortCount; i++) {
         render(filmsListContainerElement, createFilmCardTemplate(byRatingFilms[i]), `beforeend`);
       }

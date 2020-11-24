@@ -265,9 +265,17 @@ const generateRandomBoolean = (ratio) => {
   return randomBoolean;
 };
 
+let count = 0;
+
+const generateUid = () => {
+  count++;
+  return count;
+};
+
 export const generateFilm = () => {
   return {
     id: nanoid(),
+    uid: generateUid(),
     title: generateTitle(),
     rating: generateRating(),
     year: generateYear(),
