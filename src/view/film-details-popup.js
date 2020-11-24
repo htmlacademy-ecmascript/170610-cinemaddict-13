@@ -1,6 +1,8 @@
+import dayjs from "dayjs";
+
 export const createFilmDetailsPopupTemplate = (film) => {
 
-  const {title, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -42,7 +44,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${dayjs(date).format(`DD MMMM YYYY`)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
