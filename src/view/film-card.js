@@ -1,12 +1,12 @@
 export const createFilmCardTemplate = (film) => {
 
-  const {id, title, rating, year, duration, genre, poster, description, comments} = film;
+  const {id, title, rating, date, duration, genre, poster, description, comments} = film;
 
   return `<article class="film-card" id="${id}">
           <h3 class="film-card__title">${title.translation}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
-            <span class="film-card__year">${year}</span>
+            <span class="film-card__year">${date}</span>
             <span class="film-card__duration">${duration.hour}h ${duration.minute}m</span>
             <span class="film-card__genre">${genre[0].title}</span>
           </p>

@@ -1,9 +1,8 @@
 import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "./utils";
 import {nanoid} from 'nanoid';
+import dayjs from "dayjs";
 
 const MAX_RATING = 10;
-const MIN_RANDOM_YEAR = 1895;
-const MAX_RANDOM_YEAR = 2020;
 const MIN_RANDOM_HOUR = 1;
 const MAX_RANDOM_HOUR = 3;
 const MIN_RANDOM_MINUTE = 1;
@@ -105,9 +104,11 @@ const generateRating = () => {
   return rating;
 };
 
-const generateYear = () => {
-  const year = getRandomInteger(MIN_RANDOM_YEAR, MAX_RANDOM_YEAR);
-  return year;
+const generateDate = (format) => {
+  const maxDayGap = 3600;
+  const daysGap = getRandomInteger(-maxDayGap);
+  const date = dayjs().add(daysGap, `day`).toDate();
+  return dayjs(date).format(format);
 };
 
 const generateDuration = () => {
@@ -278,7 +279,7 @@ export const generateFilm = () => {
     uid: generateUid(),
     title: generateTitle(),
     rating: generateRating(),
-    year: generateYear(),
+    date: generateDate(`YYYY`),
     duration: generateDuration(),
     genre: new Array(MAX_GENRES).fill(0).map(generateGenre),
     poster: generatePoster(),

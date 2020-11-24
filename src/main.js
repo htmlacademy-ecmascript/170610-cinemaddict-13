@@ -183,7 +183,7 @@ const onSortMenuItemClick = (e) => {
     case `Sort by date`:
       clearRenderedFilms();
       filmsRenderCount = FILMS_CARDS_COUNT;
-      films.sort(sortByFieldDescending(`year`));
+      films.sort(sortByFieldDescending(`date`));
 
       renderStartFilmsCards(films);
 
