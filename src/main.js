@@ -123,22 +123,32 @@ const onSortMenuItemClick = (e) => {
   removeActiveClass(sortMenuItems, `sort__button--active`);
   e.target.classList.toggle(`sort__button--active`);
   showMoreButton.classList.remove(`visually-hidden`);
+  showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 
   switch (e.target.textContent) {
     case `Sort by default`:
       clearRenderedFilms();
-      filmsrenderCount = 0;
+      filmsrenderCount = 5;
       films.sort(sortByFieldAscending(`uid`));
+      for (let i = 0; i < filmsrenderCount; i++) {
+        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+      }
       break;
     case `Sort by date`:
       clearRenderedFilms();
-      filmsrenderCount = 0;
+      filmsrenderCount = 5;
       films.sort(sortByFieldDescending(`year`));
+      for (let i = 0; i < filmsrenderCount; i++) {
+        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+      }
       break;
     case `Sort by rating`:
       clearRenderedFilms();
-      filmsrenderCount = 0;
+      filmsrenderCount = 5;
       films.sort(sortByFieldDescending(`rating`));
+      for (let i = 0; i < filmsrenderCount; i++) {
+        render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+      }
       break;
     default:
       break;
