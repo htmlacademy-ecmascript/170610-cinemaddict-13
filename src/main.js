@@ -71,10 +71,11 @@ const sortMenuItems = siteMainElement.querySelectorAll(`.sort__button`);
 
 const onSortMenuItemClick = (e) => {
   e.preventDefault();
+  let sortCount = FILMS_CARDS_COUNT;
+
   removeActiveClass(sortMenuItems, `sort__button--active`);
   e.target.classList.toggle(`sort__button--active`);
-
-  let sortCount = FILMS_CARDS_COUNT;
+  showMoreButton.classList.remove(`visually-hidden`);
 
   switch (e.target.textContent) {
     case `Sort by default`:
@@ -137,14 +138,15 @@ const onShowMoreButtonClick = (e) => {
 
   count += (count >= MAX_MOCK_FILMS_COUNT) ? 0 : FILMS_CARDS_COUNT;
 
-  for (let i = 0; i < count; i++) {
-    render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-  }
-
   if (count >= MAX_MOCK_FILMS_COUNT) {
     showMoreButton.classList.add(`visually-hidden`);
     showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
   }
+
+  for (let i = 0; i < count; i++) {
+    render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+  }
+
 };
 
 showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
