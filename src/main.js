@@ -49,21 +49,21 @@ const watchlistFilms = films.filter((item) => {
 });
 
 const watchlistElement = siteMainElement.querySelector(`a[href="#watchlist"]`);
-watchlistElement.children[0].textContent = watchlistFilms.length;
+watchlistElement.children[0].textContent = `${watchlistFilms.length}`;
 
 const watchedFilms = films.filter((item) => {
   return item.isWatched === true;
 });
 
 const historyElement = siteMainElement.querySelector(`a[href="#history"]`);
-historyElement.children[0].textContent = watchedFilms.length;
+historyElement.children[0].textContent = `${watchedFilms.length}`;
 
 const favoritesFilms = films.filter((item) => {
   return item.isFavorite === true;
 });
 
 const favoritesElement = siteMainElement.querySelector(`a[href="#favorites"]`);
-favoritesElement.children[0].textContent = favoritesFilms.length;
+favoritesElement.children[0].textContent = `${favoritesFilms.length}`;
 
 render(siteMainElement, createSortTemplate(), `beforeend`);
 
@@ -124,11 +124,13 @@ render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
 
 const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
+let count = FILMS_CARDS_COUNT;
+
 const onShowMoreButtonClick = (e) => {
   e.preventDefault();
   clearRenderedFilms();
 
-  let count = FILMS_CARDS_COUNT;
+  count += (count >= MAX_MOCK_FILMS_COUNT) ? 0 : FILMS_CARDS_COUNT;
 
   for (let i = 0; i < count; i++) {
     render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
@@ -192,7 +194,7 @@ filmsListContainerElements.forEach((element) => {
       }
 
       const commentsCountElement = filmDetailsElement.querySelector(`.film-details__comments-count`);
-      commentsCountElement.textContent = commentsCount;
+      commentsCountElement.textContent = `${commentsCount}`;
 
       const closePopupButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
 
