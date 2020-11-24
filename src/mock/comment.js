@@ -1,10 +1,5 @@
-import {generateName, generateDescription} from "./film.js";
-import dayjs from "dayjs";
+import {generateName, generateDescription, generateDate} from "./film.js";
 import {getRandomIndex} from "./utils";
-
-const generateDate = () => {
-  return dayjs();
-};
 
 const generateEmotion = () => {
   const textEmotions = `smile.png; sleeping.png; puke.png; angry.png `;
@@ -15,7 +10,7 @@ const generateEmotion = () => {
 
 export const generateComment = () => {
   return {
-    date: generateDate(),
+    date: generateDate(`YYYY/MM/DD HH:mm`),
     author: generateName(1),
     message: generateDescription(),
     emotion: generateEmotion(),

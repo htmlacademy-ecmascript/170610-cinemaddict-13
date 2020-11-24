@@ -104,7 +104,7 @@ const generateRating = () => {
   return rating;
 };
 
-const generateDate = (format) => {
+export const generateDate = (format) => {
   const maxDayGap = 3600;
   const daysGap = getRandomInteger(-maxDayGap);
   const date = dayjs().add(daysGap, `day`).toDate();
