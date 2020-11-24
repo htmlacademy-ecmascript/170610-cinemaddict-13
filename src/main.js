@@ -69,10 +69,57 @@ render(siteMainElement, createSortTemplate(), `beforeend`);
 
 const sortMenuItems = siteMainElement.querySelectorAll(`.sort__button`);
 
+render(siteMainElement, createFilmsTemplate(), `beforeend`);
+
+const filmsElement = document.querySelector(`.films`);
+const filmsListElement = filmsElement.querySelector(`.films-list`);
+
+const filmsListContainerElement = filmsListElement.querySelector(`.films-list__container`);
+
+render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
+const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+
+/* Порции */
+
+let filmsrenderCount = FILMS_CARDS_COUNT;
+let delta = MAX_MOCK_FILMS_COUNT - filmsrenderCount;
+
+for (let i = 0; i < filmsrenderCount; i++) {
+  render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
+}
+
+const showFilmsPortions = (array) => {
+  delta = array.length - filmsrenderCount;
+
+  if (delta >= FILMS_CARDS_COUNT) {
+    filmsrenderCount += FILMS_CARDS_COUNT;
+
+    for (let i = 0; i < filmsrenderCount; i++) {
+      render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
+    }
+  } else if (delta <= FILMS_CARDS_COUNT) {
+    filmsrenderCount = MAX_MOCK_FILMS_COUNT;
+    for (let i = 0; i < filmsrenderCount; i++) {
+      render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
+    }
+    showMoreButton.classList.add(`visually-hidden`);
+    showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
+  }
+};
+
+/* Кнопка */
+
+const onShowMoreButtonClick = (e) => {
+  e.preventDefault();
+  clearRenderedFilms();
+  showFilmsPortions(films);
+};
+showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
+
+/* Сортировки */
+
 const onSortMenuItemClick = (e) => {
   e.preventDefault();
-  let sortCount = FILMS_CARDS_COUNT;
-
   removeActiveClass(sortMenuItems, `sort__button--active`);
   e.target.classList.toggle(`sort__button--active`);
   showMoreButton.classList.remove(`visually-hidden`);
@@ -80,31 +127,18 @@ const onSortMenuItemClick = (e) => {
   switch (e.target.textContent) {
     case `Sort by default`:
       clearRenderedFilms();
-      count = FILMS_CARDS_COUNT;
-
-      const byDefaultFilms = films.sort(sortByFieldAscending(`uid`));
-
-      for (let i = 0; i < sortCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(byDefaultFilms[i]), `beforeend`);
-      }
+      filmsrenderCount = 0;
+      films.sort(sortByFieldAscending(`uid`));
       break;
     case `Sort by date`:
       clearRenderedFilms();
-      count = FILMS_CARDS_COUNT;
-
-      const byDateFilms = films.sort(sortByFieldDescending(`year`));
-      for (let i = 0; i < sortCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(byDateFilms[i]), `beforeend`);
-      }
+      filmsrenderCount = 0;
+      films.sort(sortByFieldDescending(`year`));
       break;
     case `Sort by rating`:
       clearRenderedFilms();
-      count = FILMS_CARDS_COUNT;
-
-      const byRatingFilms = films.sort(sortByFieldDescending(`rating`));
-      for (let i = 0; i < sortCount; i++) {
-        render(filmsListContainerElement, createFilmCardTemplate(byRatingFilms[i]), `beforeend`);
-      }
+      filmsrenderCount = 0;
+      films.sort(sortByFieldDescending(`rating`));
       break;
     default:
       break;
@@ -115,43 +149,7 @@ sortMenuItems.forEach((item) => {
   item.addEventListener(`click`, onSortMenuItemClick);
 });
 
-render(siteMainElement, createFilmsTemplate(), `beforeend`);
-
-const filmsElement = document.querySelector(`.films`);
-const filmsListElement = filmsElement.querySelector(`.films-list`);
-
-const filmsListContainerElement = filmsListElement.querySelector(`.films-list__container`);
-
-for (let i = 0; i < FILMS_CARDS_COUNT; i++) {
-  render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-}
-
-render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
-
-const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
-
-let count = FILMS_CARDS_COUNT;
-
-const onShowMoreButtonClick = (e) => {
-  e.preventDefault();
-  clearRenderedFilms();
-
-  count += (count >= MAX_MOCK_FILMS_COUNT) ? 0 : FILMS_CARDS_COUNT;
-
-  if (count >= MAX_MOCK_FILMS_COUNT) {
-    showMoreButton.classList.add(`visually-hidden`);
-    showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
-  }
-
-  for (let i = 0; i < count; i++) {
-    render(filmsListContainerElement, createFilmCardTemplate(films[i]), `beforeend`);
-  }
-
-};
-
-showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
-
-
+/* Экстра */
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);
 
 const extraFilms = films.slice();
