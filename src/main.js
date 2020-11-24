@@ -55,7 +55,7 @@ watchlistElement.children[0].textContent = `${watchlistFilms.length}`;
 
 const onWatchlistElementClick = () => {
   clearRenderedFilms();
-  filmsrenderCount = FILMS_CARDS_COUNT;
+  filmsRenderCount = FILMS_CARDS_COUNT;
   showMoreButton.classList.remove(`visually-hidden`);
   renderStartFilmsCards(watchlistFilms);
 };
@@ -73,7 +73,7 @@ historyElement.children[0].textContent = `${watchedFilms.length}`;
 
 const onHistoryElementClick = () => {
   clearRenderedFilms();
-  filmsrenderCount = FILMS_CARDS_COUNT;
+  filmsRenderCount = FILMS_CARDS_COUNT;
   showMoreButton.classList.remove(`visually-hidden`);
   renderStartFilmsCards(watchedFilms);
 };
@@ -91,7 +91,7 @@ favoritesElement.children[0].textContent = `${favoritesFilms.length}`;
 
 const onFavoritesElementClick = () => {
   clearRenderedFilms();
-  filmsrenderCount = FILMS_CARDS_COUNT;
+  filmsRenderCount = FILMS_CARDS_COUNT;
   showMoreButton.classList.remove(`visually-hidden`);
   renderStartFilmsCards(favoritesFilms);
 };
@@ -116,8 +116,8 @@ const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 /* Порции */
 
-let filmsrenderCount = FILMS_CARDS_COUNT;
-let delta = MAX_MOCK_FILMS_COUNT - filmsrenderCount;
+let filmsRenderCount = FILMS_CARDS_COUNT;
+let delta = MAX_MOCK_FILMS_COUNT - filmsRenderCount;
 
 const renderStartFilmsCards = (array) => {
   if (array.length <= FILMS_CARDS_COUNT) {
@@ -126,7 +126,7 @@ const renderStartFilmsCards = (array) => {
     }
     showMoreButton.classList.add(`visually-hidden`);
   } else {
-    for (let i = 0; i < filmsrenderCount; i++) {
+    for (let i = 0; i < filmsRenderCount; i++) {
       render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
     }
   }
@@ -135,17 +135,17 @@ const renderStartFilmsCards = (array) => {
 renderStartFilmsCards(films);
 
 const showFilmsPortions = (array) => {
-  delta = array.length - filmsrenderCount;
+  delta = array.length - filmsRenderCount;
 
   if (delta >= FILMS_CARDS_COUNT) {
-    filmsrenderCount += FILMS_CARDS_COUNT;
+    filmsRenderCount += FILMS_CARDS_COUNT;
 
-    for (let i = 0; i < filmsrenderCount; i++) {
+    for (let i = 0; i < filmsRenderCount; i++) {
       render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
     }
   } else if (delta <= FILMS_CARDS_COUNT) {
-    filmsrenderCount = MAX_MOCK_FILMS_COUNT;
-    for (let i = 0; i < filmsrenderCount; i++) {
+    filmsRenderCount = MAX_MOCK_FILMS_COUNT;
+    for (let i = 0; i < filmsRenderCount; i++) {
       render(filmsListContainerElement, createFilmCardTemplate(array[i]), `beforeend`);
     }
     showMoreButton.classList.add(`visually-hidden`);
@@ -174,7 +174,7 @@ const onSortMenuItemClick = (e) => {
   switch (e.target.textContent) {
     case `Sort by default`:
       clearRenderedFilms();
-      filmsrenderCount = FILMS_CARDS_COUNT;
+      filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldAscending(`uid`));
 
       renderStartFilmsCards(films);
@@ -182,7 +182,7 @@ const onSortMenuItemClick = (e) => {
       break;
     case `Sort by date`:
       clearRenderedFilms();
-      filmsrenderCount = FILMS_CARDS_COUNT;
+      filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldDescending(`year`));
 
       renderStartFilmsCards(films);
@@ -190,7 +190,7 @@ const onSortMenuItemClick = (e) => {
       break;
     case `Sort by rating`:
       clearRenderedFilms();
-      filmsrenderCount = FILMS_CARDS_COUNT;
+      filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldDescending(`rating`));
 
       renderStartFilmsCards(films);
