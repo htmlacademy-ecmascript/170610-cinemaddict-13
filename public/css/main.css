@@ -1104,3 +1104,15 @@ button {
   padding-top: 50px;
   padding-bottom: 50px;
 }
+
+/* Дополнение */
+.film-card__title:hover,
+.film-card__poster:hover,
+.film-card__comments:hover {
+  cursor: pointer;
+}
+
+.modal-open {
+  height: 100vh;
+  overflow: hidden;
+}
