@@ -79,6 +79,8 @@ const onSortMenuItemClick = (e) => {
   switch (e.target.textContent) {
     case `Sort by default`:
       clearRenderedFilms();
+      count = FILMS_CARDS_COUNT;
+
       const byDefaultFilms = films.slice();
 
       for (let i = 0; i < sortCount; i++) {
@@ -87,6 +89,7 @@ const onSortMenuItemClick = (e) => {
       break;
     case `Sort by date`:
       clearRenderedFilms();
+      count = FILMS_CARDS_COUNT;
 
       const byDateFilms = films.slice().sort(sortByFieldDescending(`year`));
       for (let i = 0; i < sortCount; i++) {
@@ -95,6 +98,8 @@ const onSortMenuItemClick = (e) => {
       break;
     case `Sort by rating`:
       clearRenderedFilms();
+      count = FILMS_CARDS_COUNT;
+
       const byRatingFilms = films.slice().sort(sortByFieldDescending(`rating`));
       for (let i = 0; i < sortCount; i++) {
         render(filmsListContainerElement, createFilmCardTemplate(byRatingFilms[i]), `beforeend`);
