@@ -22,15 +22,6 @@ const Key = {
 
 const films = new Array(MAX_MOCK_FILMS_COUNT).fill(0).map(generateFilm);
 
-/* Нарисуй фильм */
-
-/* const renderFilm = (filmElement, film) => {
-  const filmComponent = new FilmsView(film);
-  const filmPopupComponent = new FilmDetailsPopupView(film);
-
-  render(filmElement, filmComponent().getElement(), RenderPosition.BEFOREEND);
-};*/
-
 /* Удали нарисованные фильмы */
 
 const clearRenderedFilms = () => {
@@ -116,6 +107,15 @@ const filmListContainerElement = filmsListElement.querySelector(`.films-list__co
 render(filmsListElement, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
 const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
+/* Нарисуй фильм */
+
+/* const renderFilm = (filmElement, film) => {
+  const filmComponent = new FilmsView(film);
+  const filmPopupComponent = new FilmDetailsPopupView(film);
+
+  render(filmElement, filmComponent().getElement(), RenderPosition.BEFOREEND);
+};*/
+
 /* Порции фильмов */
 
 let filmsRenderCount = FILMS_CARDS_COUNT;
@@ -124,7 +124,7 @@ let delta = MAX_MOCK_FILMS_COUNT - filmsRenderCount;
 const renderStartFilmsCards = (array) => {
   if (array.length <= FILMS_CARDS_COUNT) {
     for (let i = 0; i < array.length; i++) {
-      render(filmListContainerElement, (array[i]).getElement(), RenderPosition.BEFOREEND);
+      render(filmListContainerElement, new FilmCardView(array[i]).getElement(), RenderPosition.BEFOREEND);
     }
     showMoreButton.classList.add(`visually-hidden`);
   } else {
