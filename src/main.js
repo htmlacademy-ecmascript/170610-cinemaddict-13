@@ -228,6 +228,8 @@ const footerElement = siteBodyElement.querySelector(`.footer`);
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
 renderElement(footerStatisticsElement, new FooterStatisticsView(films.length).getElement(), RenderPosition.BEFOREEND);
 
+/* Попап */
+
 const filmsListContainerElements = filmsElement.querySelectorAll(`.films-list__container`);
 filmsListContainerElements.forEach((element) => {
   const onFilmsListContainerElementClick = (e) => {
@@ -243,6 +245,8 @@ filmsListContainerElements.forEach((element) => {
 
       const filmDetailsElement = siteBodyElement.querySelector(`.film-details`);
       const commentsListElement = filmDetailsElement.querySelector(`.film-details__comments-list`);
+
+      /* Комменты */
 
       const commentsCount = film.comments;
       const comments = new Array(commentsCount).fill(0).map(generateComment);
