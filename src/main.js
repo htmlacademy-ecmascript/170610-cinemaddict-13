@@ -109,12 +109,12 @@ const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 /* Нарисуй фильм */
 
-/* const renderFilm = (filmElement, film) => {
-  const filmComponent = new FilmsView(film);
-  const filmPopupComponent = new FilmDetailsPopupView(film);
+const renderFilm = (filmElement, film) => {
+  const filmComponent = new FilmCardView(film);
+  /*  const filmPopupComponent = new FilmDetailsPopupView(film);*/
 
-  render(filmElement, filmComponent().getElement(), RenderPosition.BEFOREEND);
-};*/
+  render(filmElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+};
 
 /* Порции фильмов */
 
@@ -124,12 +124,12 @@ let delta = MAX_MOCK_FILMS_COUNT - filmsRenderCount;
 const renderStartFilmsCards = (array) => {
   if (array.length <= FILMS_CARDS_COUNT) {
     for (let i = 0; i < array.length; i++) {
-      render(filmListContainerElement, new FilmCardView(array[i]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmListContainerElement, array[i]);
     }
     showMoreButton.classList.add(`visually-hidden`);
   } else {
     for (let i = 0; i < filmsRenderCount; i++) {
-      render(filmListContainerElement, new FilmCardView(array[i]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmListContainerElement, array[i]);
     }
   }
 };
@@ -143,12 +143,12 @@ const showFilmsPortions = (array) => {
     filmsRenderCount += FILMS_CARDS_COUNT;
 
     for (let i = 0; i < filmsRenderCount; i++) {
-      render(filmListContainerElement, new FilmCardView(array[i]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmListContainerElement, array[i]);
     }
   } else if (delta <= FILMS_CARDS_COUNT) {
     filmsRenderCount = MAX_MOCK_FILMS_COUNT;
     for (let i = 0; i < filmsRenderCount; i++) {
-      render(filmListContainerElement, new FilmCardView(array[i]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmListContainerElement, array[i]);
     }
     showMoreButton.classList.add(`visually-hidden`);
     showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
@@ -220,11 +220,11 @@ filmsListExtraElements.forEach((element, i) => {
 
   if (i === 0) {
     for (let x = 0; x < FILMS_CARDS_EXTRA_COUNT; x++) {
-      render(filmsListExtraContainerElement, new FilmCardView(topRatedFilms[x]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmsListExtraContainerElement, topRatedFilms[x]);
     }
   } else {
     for (let x = 0; x < FILMS_CARDS_EXTRA_COUNT; x++) {
-      render(filmsListExtraContainerElement, new FilmCardView(mostCommentedFilms[x]).getElement(), RenderPosition.BEFOREEND);
+      renderFilm(filmsListExtraContainerElement, mostCommentedFilms[x]);
     }
   }
 });
