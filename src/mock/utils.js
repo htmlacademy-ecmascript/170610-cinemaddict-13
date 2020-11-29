@@ -1,6 +1,6 @@
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
 };
 
 export const render = (container, element, place) => {
@@ -12,10 +12,6 @@ export const render = (container, element, place) => {
       container.append(element);
       break;
   }
-};
-
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
 };
 
 export const createElement = (template) => {
@@ -56,15 +52,6 @@ export const sortByFieldAscending = (field) => {
 
 export const sortByFieldDescending = (field) => {
   return (a, b) => a[field] > b[field] ? -1 : 1;
-};
-
-export const checkIsEmpty = (obj) => {
-  for (let key in obj) {
-    if ({}.hasOwnProperty.call(obj, key)) {
-      return false;
-    }
-  }
-  return true;
 };
 
 export const removeActiveClass = (array, className) => {
