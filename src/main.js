@@ -134,6 +134,7 @@ const renderFilm = (filmElement, film) => {
 
   const closePopupComponent = () => {
     siteMainElement.removeChild(filmPopupComponent.getElement());
+    siteBodyElement.classList.remove(`hide-overflow`);
   };
 
   const onFilmDetailsPopupKeydown = (event) => {
