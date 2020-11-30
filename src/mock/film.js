@@ -1,5 +1,4 @@
 import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "./utils";
-import {nanoid} from 'nanoid';
 import dayjs from "dayjs";
 
 const MAX_RATING = 10;
@@ -275,7 +274,6 @@ const generateUid = () => {
 
 export const generateFilm = () => {
   return {
-    id: nanoid(),
     uid: generateUid(),
     title: generateTitle(),
     rating: generateRating(),

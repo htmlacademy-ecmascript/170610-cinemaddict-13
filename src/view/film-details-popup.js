@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
+import {createElement} from "../mock/utils";
 
-export const createFilmDetailsPopupTemplate = (film) => {
+const createFilmDetailsPopupTemplate = (film) => {
 
   const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
 
@@ -122,3 +123,26 @@ export const createFilmDetailsPopupTemplate = (film) => {
   </form>
 </section>`;
 };
+
+export default class FilmDetailsPopupView {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

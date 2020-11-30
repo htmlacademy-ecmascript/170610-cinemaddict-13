@@ -1,4 +1,6 @@
-export const createCommentTemplate = (comment) => {
+import {createElement} from "../mock/utils";
+
+const createCommentTemplate = (comment) => {
 
   const {date, author, message, emotion} = comment;
 
@@ -16,3 +18,27 @@ export const createCommentTemplate = (comment) => {
             </div>
           </li>`;
 };
+
+export default class CommentView {
+  constructor(comment) {
+    this._comment = comment;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentTemplate(this._comment);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+
+}

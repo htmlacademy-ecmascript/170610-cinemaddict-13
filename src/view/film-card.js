@@ -1,8 +1,9 @@
-export const createFilmCardTemplate = (film) => {
+import {createElement} from "../mock/utils";
+const createFilmCardTemplate = (film) => {
 
-  const {id, title, rating, date, duration, genre, poster, description, comments} = film;
+  const {title, rating, date, duration, genre, poster, description, comments} = film;
 
-  return `<article class="film-card" id="${id}">
+  return `<article class="film-card">
           <h3 class="film-card__title">${title.translation}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
@@ -20,3 +21,26 @@ export const createFilmCardTemplate = (film) => {
           </div>
         </article>`;
 };
+
+export default class FilmCardView {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
