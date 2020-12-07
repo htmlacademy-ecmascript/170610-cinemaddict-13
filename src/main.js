@@ -27,8 +27,8 @@ const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
-render(siteHeaderElement, new ProfileView().getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new MainNavigationView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteHeaderElement, new ProfileView(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainNavigationView(), RenderPosition.AFTERBEGIN);
 
 /* Watchlist */
 
@@ -86,15 +86,15 @@ favoritesElement.addEventListener(`click`, onFavoritesElementClick);
 
 /* Конец фильтров */
 
-render(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView(), RenderPosition.BEFOREEND);
 const sortMenuItems = siteMainElement.querySelectorAll(`.sort__button`);
 
 /* Нарисуй фильмы */
 
 if (films.length === 0) {
-  render(siteMainElement, new NoFilmsView().getElement(), RenderPosition.BEFOREEND);
+  render(siteMainElement, new NoFilmsView(), RenderPosition.BEFOREEND);
 } else {
-  render(siteMainElement, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+  render(siteMainElement, new FilmsView(), RenderPosition.BEFOREEND);
 }
 
 const filmsElement = document.querySelector(`.films`);
@@ -108,7 +108,7 @@ const renderFilm = (filmElement, film) => {
   const filmComponent = new FilmCardView(film);
   const filmPopupComponent = new FilmDetailsPopupView(film);
 
-  render(filmElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmElement, filmComponent, RenderPosition.BEFOREEND);
 
   const showPopupComponent = () => {
     siteMainElement.appendChild(filmPopupComponent.getElement());
@@ -121,7 +121,7 @@ const renderFilm = (filmElement, film) => {
     const comments = new Array(commentsCount).fill(0).map(generateComment);
 
     for (let i = 0; i < comments.length; i++) {
-      render(commentsListComponent, new CommentView(comments[i]).getElement(), RenderPosition.AFTERBEGIN);
+      render(commentsListComponent, new CommentView(comments[i]), RenderPosition.AFTERBEGIN);
     }
 
     commentsCountComponent.textContent = `${commentsCount}`;
@@ -171,7 +171,7 @@ const clearRenderedFilms = () => {
 };
 
 /* Порции фильмов */
-render(filmsListElement, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
+render(filmsListElement, new ShowMoreButtonView(), RenderPosition.BEFOREEND);
 const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 let filmsRenderCount = FILMS_CARDS_COUNT;
@@ -287,4 +287,4 @@ filmsListExtraElements.forEach((element, i) => {
 
 const footerElement = siteBodyElement.querySelector(`.footer`);
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
-render(footerStatisticsElement, new FooterStatisticsView(films.length).getElement(), RenderPosition.BEFOREEND);
+render(footerStatisticsElement, new FooterStatisticsView(films.length), RenderPosition.BEFOREEND);
