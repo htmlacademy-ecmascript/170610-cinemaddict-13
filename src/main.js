@@ -9,7 +9,7 @@ import FooterStatisticsView from "./view/footer-statistics.js";
 import FilmDetailsPopupView from "./view/film-details-popup.js";
 import CommentView from "./view/comment.js";
 import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "./utils/common.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {RenderPosition, render, clearRenderedElements} from "./utils/render.js";
 import {generateFilm} from "./mock/film.js";
 import {generateComment} from "./mock/comment.js";
 
@@ -29,62 +29,6 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 render(siteHeaderElement, new ProfileView(), RenderPosition.BEFOREEND);
 render(siteMainElement, new MainNavigationView(), RenderPosition.AFTERBEGIN);
-
-/* Watchlist */
-
-const watchlistFilms = films.filter((item) => {
-  return item.isWatchlist === true;
-});
-
-const watchlistElement = siteMainElement.querySelector(`a[href="#watchlist"]`);
-watchlistElement.children[0].textContent = `${watchlistFilms.length}`;
-
-const onWatchlistElementClick = () => {
-  clearRenderedFilms();
-  filmsRenderCount = FILMS_CARDS_COUNT;
-  showMoreButton.classList.remove(`visually-hidden`);
-  renderStartFilmsCards(watchlistFilms);
-};
-
-watchlistElement.addEventListener(`click`, onWatchlistElementClick);
-
-/* History */
-
-const watchedFilms = films.filter((item) => {
-  return item.isWatched === true;
-});
-
-const historyElement = siteMainElement.querySelector(`a[href="#history"]`);
-historyElement.children[0].textContent = `${watchedFilms.length}`;
-
-const onHistoryElementClick = () => {
-  clearRenderedFilms();
-  filmsRenderCount = FILMS_CARDS_COUNT;
-  showMoreButton.classList.remove(`visually-hidden`);
-  renderStartFilmsCards(watchedFilms);
-};
-
-historyElement.addEventListener(`click`, onHistoryElementClick);
-
-/* Favorites */
-
-const favoritesFilms = films.filter((item) => {
-  return item.isFavorite === true;
-});
-
-const favoritesElement = siteMainElement.querySelector(`a[href="#favorites"]`);
-favoritesElement.children[0].textContent = `${favoritesFilms.length}`;
-
-const onFavoritesElementClick = () => {
-  clearRenderedFilms();
-  filmsRenderCount = FILMS_CARDS_COUNT;
-  showMoreButton.classList.remove(`visually-hidden`);
-  renderStartFilmsCards(favoritesFilms);
-};
-
-favoritesElement.addEventListener(`click`, onFavoritesElementClick);
-
-/* Конец фильтров */
 
 render(siteMainElement, new SortView(), RenderPosition.BEFOREEND);
 const sortMenuItems = siteMainElement.querySelectorAll(`.sort__button`);
@@ -162,17 +106,10 @@ const renderFilm = (filmElement, film) => {
   });
 };
 
-/* Удали нарисованные фильмы */
-
-const clearRenderedFilms = () => {
-  while (filmListContainerElement.firstChild) {
-    filmListContainerElement.removeChild(filmListContainerElement.lastChild);
-  }
-};
-
 /* Порции фильмов */
-render(filmsListElement, new ShowMoreButtonView(), RenderPosition.BEFOREEND);
-const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+const showMoreButtonComponent = new ShowMoreButtonView();
+
+render(filmsListElement, showMoreButtonComponent, RenderPosition.BEFOREEND);
 
 let filmsRenderCount = FILMS_CARDS_COUNT;
 let delta = FILMS_COUNT - filmsRenderCount;
@@ -182,7 +119,7 @@ const renderStartFilmsCards = (array) => {
     for (let i = 0; i < array.length; i++) {
       renderFilm(filmListContainerElement, array[i]);
     }
-    showMoreButton.classList.add(`visually-hidden`);
+    showMoreButtonComponent.getElement().classList.add(`visually-hidden`);
   } else {
     for (let i = 0; i < filmsRenderCount; i++) {
       renderFilm(filmListContainerElement, array[i]);
@@ -206,19 +143,18 @@ const showFilmsPortions = (array) => {
     for (let i = 0; i < filmsRenderCount; i++) {
       renderFilm(filmListContainerElement, array[i]);
     }
-    showMoreButton.classList.add(`visually-hidden`);
-    showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
+    showMoreButtonComponent.getElement().classList.add(`visually-hidden`);
+    showMoreButtonComponent.unsetClickHandler(() => {
+      clearRenderedElements(filmListContainerElement);
+      showFilmsPortions(films);
+    });
   }
 };
 
-/* Кнопка Show more */
-
-const onShowMoreButtonClick = (e) => {
-  e.preventDefault();
-  clearRenderedFilms();
+showMoreButtonComponent.setClickHandler(() => {
+  clearRenderedElements(filmListContainerElement);
   showFilmsPortions(films);
-};
-showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
+});
 
 /* Сортировки */
 
@@ -226,12 +162,16 @@ const onSortMenuItemClick = (e) => {
   e.preventDefault();
   removeActiveClass(sortMenuItems, `sort__button--active`);
   e.target.classList.toggle(`sort__button--active`);
-  showMoreButton.classList.remove(`visually-hidden`);
-  showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
+  showMoreButtonComponent.getElement().classList.remove(`visually-hidden`);
+
+  showMoreButtonComponent.setClickHandler(() => {
+    clearRenderedElements(filmListContainerElement);
+    showFilmsPortions(films);
+  });
 
   switch (e.target.textContent) {
     case `Sort by default`:
-      clearRenderedFilms();
+      clearRenderedElements(filmListContainerElement);
       filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldAscending(`uid`));
 
@@ -239,7 +179,7 @@ const onSortMenuItemClick = (e) => {
 
       break;
     case `Sort by date`:
-      clearRenderedFilms();
+      clearRenderedElements(filmListContainerElement);
       filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldDescending(`date`));
 
@@ -247,7 +187,7 @@ const onSortMenuItemClick = (e) => {
 
       break;
     case `Sort by rating`:
-      clearRenderedFilms();
+      clearRenderedElements(filmListContainerElement);
       filmsRenderCount = FILMS_CARDS_COUNT;
       films.sort(sortByFieldDescending(`rating`));
 
@@ -262,6 +202,60 @@ const onSortMenuItemClick = (e) => {
 sortMenuItems.forEach((item) => {
   item.addEventListener(`click`, onSortMenuItemClick);
 });
+
+/* Watchlist */
+
+const watchlistFilms = films.filter((item) => {
+  return item.isWatchlist === true;
+});
+
+const watchlistElement = siteMainElement.querySelector(`a[href="#watchlist"]`);
+watchlistElement.children[0].textContent = `${watchlistFilms.length}`;
+
+const onWatchlistElementClick = () => {
+  clearRenderedElements(filmListContainerElement);
+  filmsRenderCount = FILMS_CARDS_COUNT;
+  showMoreButtonComponent.getElement().classList.remove(`visually-hidden`);
+  renderStartFilmsCards(watchlistFilms);
+};
+
+watchlistElement.addEventListener(`click`, onWatchlistElementClick);
+
+/* History */
+
+const watchedFilms = films.filter((item) => {
+  return item.isWatched === true;
+});
+
+const historyElement = siteMainElement.querySelector(`a[href="#history"]`);
+historyElement.children[0].textContent = `${watchedFilms.length}`;
+
+const onHistoryElementClick = () => {
+  clearRenderedElements(filmListContainerElement);
+  filmsRenderCount = FILMS_CARDS_COUNT;
+  showMoreButtonComponent.getElement().classList.remove(`visually-hidden`);
+  renderStartFilmsCards(watchedFilms);
+};
+
+historyElement.addEventListener(`click`, onHistoryElementClick);
+
+/* Favorites */
+
+const favoritesFilms = films.filter((item) => {
+  return item.isFavorite === true;
+});
+
+const favoritesElement = siteMainElement.querySelector(`a[href="#favorites"]`);
+favoritesElement.children[0].textContent = `${favoritesFilms.length}`;
+
+const onFavoritesElementClick = () => {
+  clearRenderedElements(filmListContainerElement);
+  filmsRenderCount = FILMS_CARDS_COUNT;
+  showMoreButtonComponent.getElement().classList.remove(`visually-hidden`);
+  renderStartFilmsCards(favoritesFilms);
+};
+
+favoritesElement.addEventListener(`click`, onFavoritesElementClick);
 
 /* Экстра */
 const filmsListExtraElements = filmsElement.querySelectorAll(`.films-list--extra`);

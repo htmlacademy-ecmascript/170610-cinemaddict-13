@@ -30,3 +30,9 @@ export const createElement = (template) => {
 
   return newElement.firstChild;
 };
+
+export const clearRenderedElements = (element) => {
+  while (element.firstChild) {
+    element.removeChild(element.lastChild);
+  }
+};
