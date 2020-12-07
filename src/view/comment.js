@@ -1,4 +1,4 @@
-import {createElement} from "../mock/utils";
+import AbstractView from "./abstract";
 
 const createCommentTemplate = (comment) => {
 
@@ -19,26 +19,13 @@ const createCommentTemplate = (comment) => {
           </li>`;
 };
 
-export default class CommentView {
+export default class CommentView extends AbstractView {
   constructor(comment) {
+    super();
     this._comment = comment;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentTemplate(this._comment);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
 }

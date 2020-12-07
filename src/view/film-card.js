@@ -1,4 +1,5 @@
-import {createElement} from "../mock/utils";
+import AbstractView from "./abstract";
+
 const createFilmCardTemplate = (film) => {
 
   const {title, rating, date, duration, genre, poster, description, comments} = film;
@@ -22,25 +23,13 @@ const createFilmCardTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmCardView {
+export default class FilmCardView extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
