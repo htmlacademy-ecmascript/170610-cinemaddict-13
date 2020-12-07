@@ -2,6 +2,7 @@ import ProfileView from "./view/profile.js";
 import MainNavigationView from "./view/main-navigation.js";
 import SortView from "./view/sort.js";
 import FilmsView from "./view/films.js";
+import NoFilmsView from "./view/no-films";
 import FilmCardView from "./view/film-card.js";
 import ShowMoreButtonView from "./view/show-more-button.js";
 import FooterStatisticsView from "./view/footer-statistics.js";
@@ -21,14 +22,6 @@ const Key = {
 };
 
 const films = new Array(MAX_MOCK_FILMS_COUNT).fill(0).map(generateFilm);
-
-/* Удали нарисованные фильмы */
-
-const clearRenderedFilms = () => {
-  while (filmListContainerElement.firstChild) {
-    filmListContainerElement.removeChild(filmListContainerElement.lastChild);
-  }
-};
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -94,10 +87,15 @@ favoritesElement.addEventListener(`click`, onFavoritesElementClick);
 /* Конец фильтров */
 
 render(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
-
 const sortMenuItems = siteMainElement.querySelectorAll(`.sort__button`);
 
-render(siteMainElement, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+/* Нарисуй фильмы */
+
+if (films.length === 0) {
+  render(siteMainElement, new NoFilmsView().getElement(), RenderPosition.BEFOREEND);
+} else {
+  render(siteMainElement, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+}
 
 const filmsElement = document.querySelector(`.films`);
 const filmsListElement = filmsElement.querySelector(`.films-list`);
@@ -165,6 +163,14 @@ const renderFilm = (filmElement, film) => {
     evt.preventDefault();
     closePopupComponent();
   });
+};
+
+/* Удали нарисованные фильмы */
+
+const clearRenderedFilms = () => {
+  while (filmListContainerElement.firstChild) {
+    filmListContainerElement.removeChild(filmListContainerElement.lastChild);
+  }
 };
 
 /* Порции фильмов */
