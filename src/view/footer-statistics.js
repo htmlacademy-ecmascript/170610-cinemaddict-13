@@ -1,4 +1,4 @@
-import AbstractView from "./abstract";
+import AbstractView from "./abstract.js";
 
 const createFooterStatisticsTemplate = (count) => {
   return `<p>${count} movies inside</p>`;

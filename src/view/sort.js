@@ -1,4 +1,4 @@
-import AbstractView from "./abstract";
+import AbstractView from "./abstract.js";
 
 const createSortTemplate = () => {
   return `<ul class="sort">

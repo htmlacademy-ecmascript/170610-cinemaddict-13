@@ -8,20 +8,20 @@ import ShowMoreButtonView from "./view/show-more-button.js";
 import FooterStatisticsView from "./view/footer-statistics.js";
 import FilmDetailsPopupView from "./view/film-details-popup.js";
 import CommentView from "./view/comment.js";
-import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "./mock/utils.js";
-import {render, RenderPosition} from "./mock/utils.js";
+import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "./utils/common.js";
+import {render, RenderPosition} from "./utils/render.js";
 import {generateFilm} from "./mock/film.js";
 import {generateComment} from "./mock/comment.js";
 
+const FILMS_COUNT = 14;
 const FILMS_CARDS_COUNT = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
-const MAX_MOCK_FILMS_COUNT = 14;
 
 const Key = {
   ESC: `Escape`,
 };
 
-const films = new Array(MAX_MOCK_FILMS_COUNT).fill(0).map(generateFilm);
+const films = new Array(FILMS_COUNT).fill(0).map(generateFilm);
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -102,9 +102,6 @@ const filmsListElement = filmsElement.querySelector(`.films-list`);
 
 const filmListContainerElement = filmsListElement.querySelector(`.films-list__container`);
 
-render(filmsListElement, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
-const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
-
 /* Нарисуй фильм и попап */
 
 const renderFilm = (filmElement, film) => {
@@ -174,9 +171,11 @@ const clearRenderedFilms = () => {
 };
 
 /* Порции фильмов */
+render(filmsListElement, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
+const showMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
 
 let filmsRenderCount = FILMS_CARDS_COUNT;
-let delta = MAX_MOCK_FILMS_COUNT - filmsRenderCount;
+let delta = FILMS_COUNT - filmsRenderCount;
 
 const renderStartFilmsCards = (array) => {
   if (array.length <= FILMS_CARDS_COUNT) {
@@ -203,7 +202,7 @@ const showFilmsPortions = (array) => {
       renderFilm(filmListContainerElement, array[i]);
     }
   } else if (delta <= FILMS_CARDS_COUNT) {
-    filmsRenderCount = MAX_MOCK_FILMS_COUNT;
+    filmsRenderCount = FILMS_COUNT;
     for (let i = 0; i < filmsRenderCount; i++) {
       renderFilm(filmListContainerElement, array[i]);
     }

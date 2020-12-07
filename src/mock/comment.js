@@ -1,5 +1,5 @@
-import {generateName, generateDescription, generateDate} from "./film.js";
-import {getRandomIndex} from "./utils";
+import {generateName, generateDescription, generateDate} from "./film";
+import {getRandomIndex} from "../utils/common.js";
 
 const generateEmotion = () => {
   const textEmotions = `smile.png; sleeping.png; puke.png; angry.png `;

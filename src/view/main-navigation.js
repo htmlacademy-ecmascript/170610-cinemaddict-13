@@ -1,4 +1,4 @@
-import AbstractView from "./abstract";
+import AbstractView from "./abstract.js";
 
 const createMainNavigationTemplate = () => {
   return `<nav class="main-navigation">
