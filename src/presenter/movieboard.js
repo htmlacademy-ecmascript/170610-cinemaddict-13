@@ -6,18 +6,20 @@ import MostCommentedMoviesView from "../view/most-commented.js";
 import FilmsListView from "../view/films-list.js";
 import FilmCardView from "../view/film-card.js";
 import NoFilmsView from "../view/no-films.js";
-import CommentView from "../view/comment.js";
 import FilmDetailsPopupView from "../view/film-details-popup.js";
+import CommentView from "../view/comment.js";
 import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "../utils/common.js";
-import {RenderPosition, render, clearRenderedElements} from "../utils/render.js";
+import {RenderPosition, render, remove} from "../utils/render.js";
 import ShowMoreButtonView from "../view/show-more-button";
 
 const FILMS_COUNT_PER_STEP = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 
 export default class MovieBoard {
-  constructor(mainComponent) {
-    this._mainComponent = mainComponent;
+  constructor(mainContainer) {
+    this._mainComponent = mainContainer;
+    this._renderedMovieCount = FILMS_COUNT_PER_STEP;
+
     this._sortComponent = new SortView();
     this._moviesComponent = new FilmsView();
     this._allMoviesComponent = new AllMoviesView();
@@ -26,6 +28,8 @@ export default class MovieBoard {
     this._mostCommentedComponent = new MostCommentedMoviesView();
     this._noMovieComponent = new NoFilmsView();
     this._showMoreButtonComponent = new ShowMoreButtonView();
+
+    this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
   init(films) {
@@ -46,7 +50,7 @@ export default class MovieBoard {
     this._renderSort();
 
     this._renderAllMovies();
-    this._renderMovies(0, Math.min(this._movieBoardFilms.length, FILMS_COUNT_PER_STEP), this._allMoviesComponent);
+    this._renderMovies(0, Math.min(this._movieBoardFilms.length, FILMS_COUNT_PER_STEP));
     this._renderTopRatedMovies();
     this._renderMostCommentedMovies();
 
@@ -60,9 +64,9 @@ export default class MovieBoard {
     render(this._moviesListComponent, movieComponent, RenderPosition.AFTERBEGIN);
   }
 
-  _renderMovies(from, to, where) {
+  _renderMovies(from, to) {
 
-    render(where, this._moviesListComponent, RenderPosition.BEFOREEND);
+    render(this._allMoviesComponent, this._moviesListComponent, RenderPosition.AFTERBEGIN);
     this._movieBoardFilms
       .slice(from, to)
       .forEach((movieBoardFilm) => this._renderMovie(movieBoardFilm));
@@ -70,10 +74,6 @@ export default class MovieBoard {
 
   _renderAllMovies() {
     render(this._moviesComponent, this._allMoviesComponent, RenderPosition.BEFOREEND);
-  }
-
-  _renderShowMoreButton() {
-    render(this._allMoviesComponent, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
   }
 
   _renderTopRatedMovies() {
@@ -92,4 +92,20 @@ export default class MovieBoard {
     render(this._mainComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
+  _handleShowMoreButtonClick() {
+    this._renderMovies(this._renderedMovieCount, this._renderedMovieCount + FILMS_COUNT_PER_STEP);
+    this._renderedMovieCount += FILMS_COUNT_PER_STEP;
+    console.log(this._renderedMovieCount);
+
+    if (this._renderedMovieCount >= this._movieBoardFilms.length) {
+      remove(this._showMoreButtonComponent);
+    }
+
+  }
+
+  _renderShowMoreButton() {
+    render(this._allMoviesComponent, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
+
+    this._showMoreButtonComponent.setClickHandler(this._handleShowMoreButtonClick);
+  }
 }

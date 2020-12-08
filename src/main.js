@@ -6,7 +6,7 @@ import {generateFilm} from "./mock/film.js";
 import {generateComment} from "./mock/comment.js";
 import {render, RenderPosition} from "./utils/render.js";
 
-const FILMS_COUNT = 43;
+const FILMS_COUNT = 13;
 const films = new Array(FILMS_COUNT).fill(0).map(generateFilm);
 
 const siteBodyElement = document.querySelector(`body`);
