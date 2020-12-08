@@ -1,4 +1,4 @@
-import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "./utils";
+import {getRandom, getRandomInteger, shuffleArray, getRandomIndex} from "../utils/common.js";
 import dayjs from "dayjs";
 
 const MAX_RATING = 10;

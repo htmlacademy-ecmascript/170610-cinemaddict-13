@@ -1,4 +1,4 @@
-import {createElement} from "../mock/utils";
+import AbstractView from "./abstract.js";
 
 const createMainNavigationTemplate = () => {
   return `<nav class="main-navigation">
@@ -12,25 +12,8 @@ const createMainNavigationTemplate = () => {
   </nav>`;
 };
 
-export default class MainNavigationView {
-  constructor() {
-    this._element = null;
-  }
-
+export default class MainNavigationView extends AbstractView {
   getTemplate() {
     return createMainNavigationTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
 }
