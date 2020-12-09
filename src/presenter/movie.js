@@ -9,48 +9,44 @@ export default class Movie {
     this._moviesListContainer = movieListContainer;
 
     this._movieComponent = null;
-    this._moviePopupComponent = null;
+    this._popupComponent = null;
 
-/*    this._handleEditClick = this._handleEditClick.bind(this);
-    this._handleFormSubmit = this._handleFormSubmit.bind(this);
-    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);*/
+    this._handleMovieClick = this._handleMovieClick.bind(this);
+    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+
   }
 
   init(film) {
     this._movie = film;
 
     this._movieComponent = new MovieView(film);
-    this._moviePopupComponent = new PopupView(film);
-/*
-    this._taskComponent.setEditClickHandler(this._handleEditClick);
-    this._taskEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-*/
+    this._popupComponent = new PopupView(film);
+
+    this._movieComponent.setClickHandler(this._handleMovieClick);
 
     render(this._moviesListContainer, this._movieComponent, RenderPosition.AFTERBEGIN);
-  }
 
-  /*_replaceCardToForm() {
-    replace(this._taskEditComponent, this._taskComponent);
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
-  }
-
-  _replaceFormToCard() {
-    replace(this._taskComponent, this._taskEditComponent);
-    document.removeEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
-      this._replaceFormToCard();
+      this._replacePopupToCard();
     }
   }
 
-  _handleEditClick() {
-    this._replaceCardToForm();
+  _replaceCardToPopup() {
+    replace(this._popupComponent, this._moviesListContainer);
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
-  _handleFormSubmit() {
-    this._replaceFormToCard();
-  }*/
+  _replacePopupToCard() {
+    replace(this._moviesListContainer, this._popupComponent);
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
+  }
+
+  _handleMovieClick() {
+    this._replaceCardToPopup();
+  }
+
 }
