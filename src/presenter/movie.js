@@ -54,7 +54,7 @@ export default class Movie {
   _handleClosePopupButton(e) {
     e.preventDefault();
     this._replacePopupToCard();
-    this._popupComponent.getElement(`film-details__close-btn`).removeEventListener(`click`, this._handleClosePopupButton);
+    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._handleClosePopupButton);
   }
 
   _escKeyDownHandler(e) {
@@ -68,13 +68,13 @@ export default class Movie {
     replace(this._popupComponent, this._moviesListContainer);
     this._popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
-    document.querySelector(`.main`).classList.add(`hide-overflow`);
+    document.querySelector(`body`).classList.add(`hide-overflow`);
   }
 
   _replacePopupToCard() {
     replace(this._moviesListContainer, this._popupComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    document.querySelector(`.main`).classList.remove(`hide-overflow`);
+    document.querySelector(`body`).classList.remove(`hide-overflow`);
   }
 
   _handleMovieClick() {

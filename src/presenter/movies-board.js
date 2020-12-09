@@ -41,7 +41,7 @@ export default class MoviesBoard {
   }
 
   _handleMovieChange(updatedMovie) {
-    this._boardFilms = updateItem (this._boardMovies, updatedMovie);
+    this._boardFilms = updateItem(this._boardMovies, updatedMovie);
     this._moviePresenter[updatedMovie.id].init(updatedMovie);
   }
 
