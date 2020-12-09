@@ -37,6 +37,10 @@ export default class Movie {
     this._movieComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._movieComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
+    this._popupComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
+    this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
+
     if (prevMovieComponent === null || prevPopupComponent === null) {
       render(this._moviesListContainer, this._movieComponent, RenderPosition.BEFOREEND);
     }
