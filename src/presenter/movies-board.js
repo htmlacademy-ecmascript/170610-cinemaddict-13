@@ -4,20 +4,18 @@ import AllMoviesView from "../view/all-movies.js";
 import TopRatedMoviesView from "../view/top-rated.js";
 import MostCommentedMoviesView from "../view/most-commented.js";
 import FilmsListView from "../view/films-list.js";
-import FilmCardView from "../view/film-card.js";
 import NoFilmsView from "../view/no-films.js";
-import FilmDetailsPopupView from "../view/film-details-popup.js";
-import CommentView from "../view/comment.js";
-import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "../utils/common.js";
-import {RenderPosition, render, remove} from "../utils/render.js";
 import ShowMoreButtonView from "../view/show-more-button";
+import MoviePresenter from "../presenter/movie.js";
+import {sortByFieldAscending, sortByFieldDescending, removeActiveClass} from "../utils/common.js";
+import {RenderPosition, render, remove, replace} from "../utils/render.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const FILMS_CARDS_EXTRA_COUNT = 2;
 
-export default class MovieBoard {
+export default class MoviesBoard {
   constructor(mainContainer) {
-    this._mainComponent = mainContainer;
+    this._mainContainer = mainContainer;
     this._renderedMovieCount = FILMS_COUNT_PER_STEP;
 
     this._sortComponent = new SortView();
@@ -35,7 +33,7 @@ export default class MovieBoard {
   init(films) {
     this._movieBoardFilms = films.slice();
 
-    render(this._mainComponent, this._moviesComponent, RenderPosition.BEFOREEND);
+    render(this._mainContainer, this._moviesComponent, RenderPosition.BEFOREEND);
 
     this._renderMovieBoard();
   }
@@ -60,8 +58,8 @@ export default class MovieBoard {
   }
 
   _renderMovie(film) {
-    const movieComponent = new FilmCardView(film);
-    render(this._moviesListComponent, movieComponent, RenderPosition.AFTERBEGIN);
+    const moviePresenter = new MoviePresenter(this._moviesListComponent);
+    moviePresenter.init(film);
   }
 
   _renderMovies(from, to) {
@@ -85,17 +83,16 @@ export default class MovieBoard {
   }
 
   _renderNoMovies() {
-    render(this._mainComponent, this._noMovieComponent, RenderPosition.AFTERBEGIN);
+    render(this._mainContainer, this._noMovieComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderSort() {
-    render(this._mainComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    render(this._mainContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
   _handleShowMoreButtonClick() {
     this._renderMovies(this._renderedMovieCount, this._renderedMovieCount + FILMS_COUNT_PER_STEP);
     this._renderedMovieCount += FILMS_COUNT_PER_STEP;
-    console.log(this._renderedMovieCount);
 
     if (this._renderedMovieCount >= this._movieBoardFilms.length) {
       remove(this._showMoreButtonComponent);
