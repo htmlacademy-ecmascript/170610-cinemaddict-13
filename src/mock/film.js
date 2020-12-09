@@ -288,8 +288,8 @@ export const generateFilm = () => {
     actors: generateName(4),
     country: generateCountry(),
     ageRating: generateAgeRating(),
-    isWatched: generateRandomBoolean(0.5),
     isWatchlist: generateRandomBoolean(0.3),
+    isWatched: generateRandomBoolean(0.5),
     isFavorite: generateRandomBoolean(0.2),
   };
 };

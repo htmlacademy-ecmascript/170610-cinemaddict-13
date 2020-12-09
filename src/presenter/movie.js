@@ -5,8 +5,9 @@ import {generateComment} from "../mock/comment.js";*/
 import {RenderPosition, render, replace, remove} from "../utils/render.js";
 
 export default class Movie {
-  constructor(movieListContainer) {
+  constructor(movieListContainer, changeData) {
     this._moviesListContainer = movieListContainer;
+    this._changeData = changeData;
 
     this._movieComponent = null;
     this._popupComponent = null;
@@ -14,6 +15,10 @@ export default class Movie {
     this._handleMovieClick = this._handleMovieClick.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+
+    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
+    this._handleWatchedClick = this._handleWatchedClick.bind(this);
+    this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
 
   }
 
@@ -23,13 +28,17 @@ export default class Movie {
     const prevMovieComponent = this._movieComponent;
     const prevPopupComponent = this._popupComponent;
 
-    this._movieComponent = new MovieView(this._movie);
-    this._popupComponent = new PopupView(this._movie);
+    this._movieComponent = new MovieView(film);
+    this._popupComponent = new PopupView(film);
 
-    this._movieComponent.setClickHandler(this._handleMovieClick);
+    this._movieComponent.setCardClickHandler(this._handleMovieClick);
+
+    this._movieComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._movieComponent.setWatchedClickHandler(this._handleWatchedClick);
+    this._movieComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
     if (prevMovieComponent === null || prevPopupComponent === null) {
-      render(this._moviesListContainer, this._movieComponent, RenderPosition.AFTERBEGIN);
+      render(this._moviesListContainer, this._movieComponent, RenderPosition.BEFOREEND);
     }
 
     /* Очистка не работает https://github.com/htmlacademy-ecmascript/taskmanager-13/commit/c33f1d8d21d7b259bc22a943b0ddf2a409543de2 */
@@ -77,7 +86,44 @@ export default class Movie {
     document.querySelector(`body`).classList.remove(`hide-overflow`);
   }
 
+  _handleWatchlistClick() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatchlist: !this._movie.isWatchlist
+            }
+        )
+    );
+  }
+
+  _handleWatchedClick() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatched: !this._movie.isWatched
+            }
+        )
+    );
+  }
+
+  _handleFavoritesClick() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isFavorite: !this._movie.isFavorite
+            }
+        )
+    );
+  }
+
   _handleMovieClick() {
+    /*    this._changeData(film); */
     this._replaceCardToPopup();
   }
 

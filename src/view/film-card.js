@@ -27,22 +27,55 @@ export default class FilmCardView extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
-    this._clickHandler = this._clickHandler.bind(this);
+    this._cardClickHandler = this._cardClickHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  _clickHandler(e) {
+  _cardClickHandler(e) {
     e.preventDefault();
     if (e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__comments`)) {
-      this._callback.click();
+      this._callback.cardClick();
     }
   }
 
-  setClickHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().addEventListener(`click`, this._clickHandler);
+  setCardClickHandler(callback) {
+    this._callback.cardClick = callback;
+    this.getElement().addEventListener(`click`, this._cardClickHandler);
+  }
+
+  _watchlistClickHandler(e) {
+    e.preventDefault();
+    this._callback.watchlistClick();
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+  }
+
+  _watchedClickHandler(e) {
+    e.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  setWatchedClickHandler(callback) {
+    this._callback.watchedClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, this._watchedClickHandler);
+  }
+
+  _favoritesClickHandler(e) {
+    e.preventDefault();
+    this._callback.favoritesClick();
+  }
+
+  setFavoritesClickHandler(callback) {
+    this._callback.favoritesClick = callback;
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, this._favoritesClickHandler);
   }
 }

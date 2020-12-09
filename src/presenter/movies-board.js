@@ -65,7 +65,7 @@ export default class MoviesBoard {
   }
 
   _renderMovie(film) {
-    const moviePresenter = new MoviePresenter(this._moviesListComponent);
+    const moviePresenter = new MoviePresenter(this._moviesListComponent, this._handleMovieChange);
     moviePresenter.init(film);
     this._moviePresenter[film.id] = moviePresenter;
   }
