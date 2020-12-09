@@ -4,13 +4,20 @@ import PopupView from "../view/film-popup.js";
 import {generateComment} from "../mock/comment.js";*/
 import {RenderPosition, render, replace, remove} from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
+
 export default class Movie {
-  constructor(movieListContainer, changeData) {
+  constructor(movieListContainer, changeData, changeMode) {
     this._moviesListContainer = movieListContainer;
     this._changeData = changeData;
+    this._changeMode = changeMode;
 
     this._movieComponent = null;
     this._popupComponent = null;
+    this.mode = Mode.DEFAULT;
 
     this._handleMovieClick = this._handleMovieClick.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
@@ -45,24 +52,36 @@ export default class Movie {
       render(this._moviesListContainer, this._movieComponent, RenderPosition.BEFOREEND);
     }
 
-    /* Очистка не работает https://github.com/htmlacademy-ecmascript/taskmanager-13/commit/c33f1d8d21d7b259bc22a943b0ddf2a409543de2 */
+    /* Начало проблемного кода */
 
-    /* if (this._moviesListContainer.getElement().contains(prevMovieComponent.getElement())) {
+/*    if (this._mode === Mode.DEFAULT) {
       replace(this._movieComponent, prevMovieComponent);
-    }*/
+    }
 
-    /* if (this._moviesListContainer.getElement().contains(prevPopupComponent.getElement())) {
+    if (this._mode === Mode.POPUP) {
       replace(this._popupComponent, prevPopupComponent);
-    }*/
+    }
 
-    /* remove(prevMovieComponent);
+    remove(prevMovieComponent);
     remove(prevPopupComponent);*/
   }
 
+/*
   destroy() {
     remove(this._movieComponent);
     remove(this._popupComponent);
   }
+*/
+
+/*
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replacePopupToCard();
+    }
+  }
+*/
+
+  /* Конец проблемного кода */
 
   _handleClosePopupButton(e) {
     e.preventDefault();
@@ -82,12 +101,15 @@ export default class Movie {
     this._popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     document.querySelector(`body`).classList.add(`hide-overflow`);
+    this._changeMode();
+    this._mode = Mode.POPUP;
   }
 
   _replacePopupToCard() {
     replace(this._moviesListContainer, this._popupComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     document.querySelector(`body`).classList.remove(`hide-overflow`);
+    this._mode = Mode.DEFAULT;
   }
 
   _handleWatchlistClick() {

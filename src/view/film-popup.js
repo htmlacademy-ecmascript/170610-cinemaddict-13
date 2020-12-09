@@ -129,7 +129,6 @@ export default class FilmDetailsPopupView extends AbstractView {
     super();
     this._film = film;
 
-    this._clickHandler = this._clickHandler.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
@@ -137,16 +136,6 @@ export default class FilmDetailsPopupView extends AbstractView {
 
   getTemplate() {
     return createFilmDetailsPopupTemplate(this._film);
-  }
-
-  _clickHandler(e) {
-    e.preventDefault();
-    this._callback.click();
-  }
-
-  setClickHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().addEventListener(`click`, this._clickHandler);
   }
 
   _watchlistClickHandler(e) {

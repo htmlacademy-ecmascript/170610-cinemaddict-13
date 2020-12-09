@@ -29,6 +29,7 @@ export default class MoviesBoard {
     this._showMoreButtonComponent = new ShowMoreButtonView();
 
     this._handleMovieChange = this._handleMovieChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
@@ -38,6 +39,12 @@ export default class MoviesBoard {
     render(this._mainContainer, this._moviesComponent, RenderPosition.BEFOREEND);
 
     this._renderMovieBoard();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._moviePresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 
   _handleMovieChange(updatedMovie) {
@@ -65,7 +72,7 @@ export default class MoviesBoard {
   }
 
   _renderMovie(film) {
-    const moviePresenter = new MoviePresenter(this._moviesListComponent, this._handleMovieChange);
+    const moviePresenter = new MoviePresenter(this._moviesListComponent, this._handleMovieChange, this._handleModeChange);
     moviePresenter.init(film);
     this._moviePresenter[film.id] = moviePresenter;
   }
