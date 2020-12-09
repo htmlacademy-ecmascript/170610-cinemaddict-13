@@ -267,14 +267,14 @@ const generateRandomBoolean = (ratio) => {
 
 let count = 0;
 
-const generateUid = () => {
+const generateId = () => {
   count++;
   return count;
 };
 
 export const generateFilm = () => {
   return {
-    uid: generateUid(),
+    id: generateId(),
     title: generateTitle(),
     rating: generateRating(),
     date: generateDate(`YYYY`),

@@ -1,8 +1,8 @@
 import MovieView from "../view/film-card.js";
 import PopupView from "../view/film-popup.js";
-import CommentView from "../view/comment.js";
-import {generateComment} from "../mock/comment.js";
-import {RenderPosition, render, remove, replace} from "../utils/render.js";
+/* import CommentView from "../view/comment.js";
+import {generateComment} from "../mock/comment.js";*/
+import {RenderPosition, render, replace, remove} from "../utils/render.js";
 
 export default class Movie {
   constructor(movieListContainer) {
@@ -20,13 +20,35 @@ export default class Movie {
   init(film) {
     this._movie = film;
 
-    this._movieComponent = new MovieView(film);
-    this._popupComponent = new PopupView(film);
+    const prevMovieComponent = this._movieComponent;
+    const prevPopupComponent = this._popupComponent;
+
+    this._movieComponent = new MovieView(this._movie);
+    this._popupComponent = new PopupView(this._movie);
 
     this._movieComponent.setClickHandler(this._handleMovieClick);
 
-    render(this._moviesListContainer, this._movieComponent, RenderPosition.AFTERBEGIN);
+    if (prevMovieComponent === null || prevPopupComponent === null) {
+      render(this._moviesListContainer, this._movieComponent, RenderPosition.AFTERBEGIN);
+    }
 
+    /* Очистка не работает https://github.com/htmlacademy-ecmascript/taskmanager-13/commit/c33f1d8d21d7b259bc22a943b0ddf2a409543de2 */
+
+    /* if (this._moviesListContainer.getElement().contains(prevMovieComponent.getElement())) {
+      replace(this._movieComponent, prevMovieComponent);
+    }*/
+
+    /* if (this._moviesListContainer.getElement().contains(prevPopupComponent.getElement())) {
+      replace(this._popupComponent, prevPopupComponent);
+    }*/
+
+    /* remove(prevMovieComponent);
+    remove(prevPopupComponent);*/
+  }
+
+  destroy() {
+    remove(this._movieComponent);
+    remove(this._popupComponent);
   }
 
   _handleClosePopupButton(e) {
@@ -44,7 +66,7 @@ export default class Movie {
 
   _replaceCardToPopup() {
     replace(this._popupComponent, this._moviesListContainer);
-    this._popupComponent.getElement(`film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
+    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     document.querySelector(`.main`).classList.add(`hide-overflow`);
   }
