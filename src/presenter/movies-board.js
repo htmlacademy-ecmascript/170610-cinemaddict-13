@@ -31,6 +31,7 @@ export default class MoviesBoard {
     this._handleMovieChange = this._handleMovieChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
+    this._handleSortChange = this._handleSortTypeChange.bind(this);
   }
 
   init(films) {
@@ -39,6 +40,12 @@ export default class MoviesBoard {
     render(this._mainContainer, this._moviesComponent, RenderPosition.BEFOREEND);
 
     this._renderMovieBoard();
+  }
+
+  _handleSortTypeChange(sortType) {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
   }
 
   _handleModeChange() {
@@ -103,6 +110,7 @@ export default class MoviesBoard {
 
   _renderSort() {
     render(this._mainContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _handleShowMoreButtonClick() {
