@@ -11,13 +11,13 @@ const Mode = {
 
 export default class Movie {
   constructor(movieListContainer, changeData, changeMode) {
-    this._moviesListContainer = movieListContainer;
+    this._movieListContainer = movieListContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
 
     this._movieComponent = null;
     this._popupComponent = null;
-    this.mode = Mode.DEFAULT;
+    this._mode = Mode.DEFAULT;
 
     this._handleMovieClick = this._handleMovieClick.bind(this);
     this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
@@ -29,14 +29,14 @@ export default class Movie {
 
   }
 
-  init(film) {
-    this._movie = film;
+  init(movie) {
+    this._movie = movie;
 
     const prevMovieComponent = this._movieComponent;
     const prevPopupComponent = this._popupComponent;
 
-    this._movieComponent = new MovieView(film);
-    this._popupComponent = new PopupView(film);
+    this._movieComponent = new MovieView(movie);
+    this._popupComponent = new PopupView(movie);
 
     this._movieComponent.setCardClickHandler(this._handleMovieClick);
 
@@ -49,12 +49,11 @@ export default class Movie {
     this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
     if (prevMovieComponent === null || prevPopupComponent === null) {
-      render(this._moviesListContainer, this._movieComponent, RenderPosition.BEFOREEND);
+      render(this._movieListContainer, this._movieComponent, RenderPosition.BEFOREEND);
+      return;
     }
 
-    /* Начало проблемного кода */
-
-/*    if (this._mode === Mode.DEFAULT) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._movieComponent, prevMovieComponent);
     }
 
@@ -63,25 +62,19 @@ export default class Movie {
     }
 
     remove(prevMovieComponent);
-    remove(prevPopupComponent);*/
+    remove(prevPopupComponent);
   }
 
-/*
   destroy() {
     remove(this._movieComponent);
     remove(this._popupComponent);
   }
-*/
 
-/*
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._replacePopupToCard();
     }
   }
-*/
-
-  /* Конец проблемного кода */
 
   _handleClosePopupButton(e) {
     e.preventDefault();
@@ -97,7 +90,7 @@ export default class Movie {
   }
 
   _replaceCardToPopup() {
-    replace(this._popupComponent, this._moviesListContainer);
+    replace(this._popupComponent, this._movieComponent);
     this._popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     document.querySelector(`body`).classList.add(`hide-overflow`);
@@ -106,7 +99,7 @@ export default class Movie {
   }
 
   _replacePopupToCard() {
-    replace(this._moviesListContainer, this._popupComponent);
+    replace(this._movieComponent, this._popupComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     document.querySelector(`body`).classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;

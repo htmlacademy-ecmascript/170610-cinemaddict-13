@@ -31,22 +31,22 @@ export default class MoviesBoard {
     this._handleMovieChange = this._handleMovieChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
-    this._handleSortChange = this._handleSortTypeChange.bind(this);
+    /*    this._handleSortChange = this._handleSortTypeChange.bind(this);*/
   }
 
-  init(films) {
-    this._boardMovies = films.slice();
+  init(boardMovies) {
+    this._boardMovies = boardMovies.slice();
 
     render(this._mainContainer, this._moviesComponent, RenderPosition.BEFOREEND);
 
     this._renderMovieBoard();
   }
 
-  _handleSortTypeChange(sortType) {
+  /*  _handleSortTypeChange(sortType) {
     // - Сортируем задачи
     // - Очищаем список
     // - Рендерим список заново
-  }
+  }*/
 
   _handleModeChange() {
     Object
@@ -55,7 +55,7 @@ export default class MoviesBoard {
   }
 
   _handleMovieChange(updatedMovie) {
-    this._boardFilms = updateItem(this._boardMovies, updatedMovie);
+    this._boardMovies = updateItem(this._boardMovies, updatedMovie);
     this._moviePresenter[updatedMovie.id].init(updatedMovie);
   }
 
@@ -66,7 +66,7 @@ export default class MoviesBoard {
       return;
     }
 
-    this._renderSort();
+    /*    this._renderSort();*/
 
     this._renderAllMovies();
     this._renderMovies(0, Math.min(this._boardMovies.length, FILMS_COUNT_PER_STEP));
@@ -78,10 +78,10 @@ export default class MoviesBoard {
     }
   }
 
-  _renderMovie(film) {
+  _renderMovie(movie) {
     const moviePresenter = new MoviePresenter(this._moviesListComponent, this._handleMovieChange, this._handleModeChange);
-    moviePresenter.init(film);
-    this._moviePresenter[film.id] = moviePresenter;
+    moviePresenter.init(movie);
+    this._moviePresenter[movie.id] = moviePresenter;
   }
 
   _renderMovies(from, to) {
