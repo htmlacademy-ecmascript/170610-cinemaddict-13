@@ -6,7 +6,7 @@ import {generateFilm} from "./mock/film.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 const FILMS_COUNT = 13;
-const films = new Array(FILMS_COUNT).fill(0).map(generateFilm);
+const movies = new Array(FILMS_COUNT).fill(0).map(generateFilm);
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -15,10 +15,10 @@ render(siteHeaderElement, new ProfileView(), RenderPosition.BEFOREEND);
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 const movieBoardPresenter = new MovieBoardPresenter(siteMainElement);
-movieBoardPresenter.init(films);
+movieBoardPresenter.init(movies);
 
 render(siteMainElement, new MainNavigationView(), RenderPosition.AFTERBEGIN);
 
 const footerElement = siteBodyElement.querySelector(`.footer`);
 const footerStatisticsElement = footerElement.querySelector(`.footer__statistics`);
-render(footerStatisticsElement, new FooterStatisticsView(films.length), RenderPosition.BEFOREEND);
+render(footerStatisticsElement, new FooterStatisticsView(movies.length), RenderPosition.BEFOREEND);
