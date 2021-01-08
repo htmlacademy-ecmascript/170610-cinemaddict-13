@@ -9,6 +9,8 @@ const Mode = {
   POPUP: `POPUP`
 };
 
+const siteBodyElement = document.querySelector(`body`);
+
 export default class Movie {
   constructor(movieListContainer, changeData, changeMode) {
     this._movieListContainer = movieListContainer;
@@ -20,7 +22,6 @@ export default class Movie {
     this._mode = Mode.DEFAULT;
 
     this._handleMovieClick = this._handleMovieClick.bind(this);
-    this._handleClosePopupButton = this._handleClosePopupButton.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
 
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
@@ -48,6 +49,8 @@ export default class Movie {
     this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
+    this._popupComponent.setClosePopupButtonClickHandler(this._handleClosePopupButtonClick);
+
     if (prevMovieComponent === null || prevPopupComponent === null) {
       render(this._movieListContainer, this._movieComponent, RenderPosition.BEFOREEND);
       return;
@@ -61,8 +64,8 @@ export default class Movie {
       replace(this._popupComponent, prevPopupComponent);
     }
 
-    remove(prevMovieComponent);
-    remove(prevPopupComponent);
+/*    remove(prevMovieComponent);
+    remove(prevPopupComponent);*/
   }
 
   destroy() {
@@ -76,10 +79,8 @@ export default class Movie {
     }
   }
 
-  _handleClosePopupButton(e) {
-    e.preventDefault();
-    this._replacePopupToCard();
-    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._handleClosePopupButton);
+  _handleClosePopupButtonClick() {
+    console.log(12);
   }
 
   _escKeyDownHandler(e) {
@@ -90,18 +91,18 @@ export default class Movie {
   }
 
   _replaceCardToPopup() {
-    replace(this._popupComponent, this._movieComponent);
-    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleClosePopupButton);
+    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
-    document.querySelector(`body`).classList.add(`hide-overflow`);
+    siteBodyElement.classList.add(`hide-overflow`);
     this._changeMode();
     this._mode = Mode.POPUP;
   }
 
   _replacePopupToCard() {
-    replace(this._movieComponent, this._popupComponent);
+    remove(this._popupComponent);
+    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._handleClosePopupButton);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    document.querySelector(`body`).classList.remove(`hide-overflow`);
+    siteBodyElement.classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;
   }
 
@@ -142,7 +143,6 @@ export default class Movie {
   }
 
   _handleMovieClick() {
-    /*    this._changeData(film); */
     this._replaceCardToPopup();
   }
 

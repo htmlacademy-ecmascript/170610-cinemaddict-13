@@ -132,6 +132,7 @@ export default class FilmDetailsPopupView extends AbstractView {
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._closePopupButtonHandler = this._closePopupButtonHandler.bind(this);
   }
 
   getTemplate() {
@@ -166,6 +167,16 @@ export default class FilmDetailsPopupView extends AbstractView {
   setFavoritesClickHandler(callback) {
     this._callback.favoritesClick = callback;
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+  }
+
+  _closePopupButtonHandler(e) {
+    e.preventDefault();
+    this._callback.closePopupButtonClick();
+  }
+
+  setClosePopupButtonClickHandler(callback) {
+    this._callback.closePopupButtonClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closePopupButtonHandler);
   }
 
 }
