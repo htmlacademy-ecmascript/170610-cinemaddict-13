@@ -111,9 +111,7 @@ export default class Board {
     }
 
     this._renderSort();
-
     this._renderAllMoviesContainer();
-
     this._renderMoviesList();
   }
 }

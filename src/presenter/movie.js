@@ -24,6 +24,10 @@ export default class Movie {
     this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
 
+    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
+    this._handleWatchedClick = this._handleWatchedClick.bind(this);
+    this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
+
   }
 
   init(movie) {
