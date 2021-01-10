@@ -1,149 +1,61 @@
-import MovieView from "../view/film-card.js";
-import PopupView from "../view/film-popup.js";
-/* import CommentView from "../view/comment.js";
-import {generateComment} from "../mock/comment.js";*/
+import CardView from "../view/card.js";
+import PopupView from "../view/popup.js";
 import {RenderPosition, render, replace, remove} from "../utils/render.js";
-
-const Mode = {
-  DEFAULT: `DEFAULT`,
-  POPUP: `POPUP`
-};
 
 const siteBodyElement = document.querySelector(`body`);
 
 export default class Movie {
-  constructor(movieListContainer, changeData, changeMode) {
-    this._movieListContainer = movieListContainer;
-    this._changeData = changeData;
-    this._changeMode = changeMode;
+  constructor(moviesListContainer) {
+    this._moviesListContainer = moviesListContainer;
 
-    this._movieComponent = null;
+    this._cardComponent = null;
     this._popupComponent = null;
-    this._mode = Mode.DEFAULT;
 
-    this._handleMovieClick = this._handleMovieClick.bind(this);
-    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._handleShowPopupClick = this._handleShowPopupClick.bind(this);
+    this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
 
-    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
-    this._handleWatchedClick = this._handleWatchedClick.bind(this);
-    this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
+    this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
 
   }
 
   init(movie) {
     this._movie = movie;
 
-    const prevMovieComponent = this._movieComponent;
-    const prevPopupComponent = this._popupComponent;
-
-    this._movieComponent = new MovieView(movie);
+    this._cardComponent = new CardView(movie);
     this._popupComponent = new PopupView(movie);
 
-    this._movieComponent.setCardClickHandler(this._handleMovieClick);
+    this._cardComponent.setShowPopupClickHandler(this._handleShowPopupClick);
+    this._popupComponent.setCloseButtonClickHandler(this._handleCloseButtonClick);
 
-    this._movieComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._movieComponent.setWatchedClickHandler(this._handleWatchedClick);
-    this._movieComponent.setFavoritesClickHandler(this._handleFavoritesClick);
+    render(this._moviesListContainer, this._cardComponent, RenderPosition.AFTERBEGIN);
 
-    this._popupComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
-
-    this._popupComponent.setClosePopupButtonClickHandler(this._handleClosePopupButtonClick);
-
-    if (prevMovieComponent === null || prevPopupComponent === null) {
-      render(this._movieListContainer, this._movieComponent, RenderPosition.BEFOREEND);
-      return;
-    }
-
-    if (this._mode === Mode.DEFAULT) {
-      replace(this._movieComponent, prevMovieComponent);
-    }
-
-    if (this._mode === Mode.POPUP) {
-      replace(this._popupComponent, prevPopupComponent);
-    }
-
-/*    remove(prevMovieComponent);
-    remove(prevPopupComponent);*/
   }
 
-  destroy() {
-    remove(this._movieComponent);
-    remove(this._popupComponent);
+  _replaceCardToPopup() {
+    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
+    document.addEventListener(`keydown`, this._handleEscKeyDown);
   }
 
-  resetView() {
-    if (this._mode !== Mode.DEFAULT) {
-      this._replacePopupToCard();
-    }
+  _replacePopupToCard() {
+    this._popupComponent.getElement().remove();
+    document.removeEventListener(`keydown`, this._handleEscKeyDown);
   }
 
-  _handleClosePopupButtonClick() {
-    console.log(12);
-  }
-
-  _escKeyDownHandler(e) {
+  _handleEscKeyDown(e) {
     if (e.key === `Escape` || e.key === `Esc`) {
       e.preventDefault();
       this._replacePopupToCard();
     }
   }
 
-  _replaceCardToPopup() {
-    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
-    siteBodyElement.classList.add(`hide-overflow`);
-    this._changeMode();
-    this._mode = Mode.POPUP;
-  }
-
-  _replacePopupToCard() {
-    remove(this._popupComponent);
-    this._popupComponent.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._handleClosePopupButton);
-    document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    siteBodyElement.classList.remove(`hide-overflow`);
-    this._mode = Mode.DEFAULT;
-  }
-
-  _handleWatchlistClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isWatchlist: !this._movie.isWatchlist
-            }
-        )
-    );
-  }
-
-  _handleWatchedClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isWatched: !this._movie.isWatched
-            }
-        )
-    );
-  }
-
-  _handleFavoritesClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isFavorite: !this._movie.isFavorite
-            }
-        )
-    );
-  }
-
-  _handleMovieClick() {
+  _handleShowPopupClick() {
     this._replaceCardToPopup();
   }
 
+  _handleCloseButtonClick() {
+    this._replacePopupToCard();
+  }
+
 }
+
+

@@ -1,14 +1,14 @@
 import AbstractView from "./abstract.js";
 
-const createAllMoviesTemplate = () => {
+const createAllMoviesListTemplate = () => {
   return `<section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
     </section>
   </section>`;
 };
 
-export default class AllMoviesView extends AbstractView {
+export default class AllMoviesListView extends AbstractView {
   getTemplate() {
-    return createAllMoviesTemplate();
+    return createAllMoviesListTemplate();
   }
 }
