@@ -1,7 +1,7 @@
 import ProfileView from "./view/profile.js";
 import MovieBoardPresenter from "./presenter/board.js";
 import FooterStatisticsView from "./view/footer-statistics.js";
-import {generateFilm} from "./mock/film.js";
+import {generateFilm} from "./mock/movie.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 const FILMS_COUNT = 13;

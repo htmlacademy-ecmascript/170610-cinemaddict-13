@@ -6,6 +6,7 @@ import SortView from "../view/sort.js";
 import NoMoviesView from "../view/no-movies.js";
 import LoadMoreButtonView from "../view/load-more-button.js";
 import MoviePresenter from "./movie.js";
+import {updateItem} from "../utils/common.js";
 import {RenderPosition, render, remove} from "../utils/render.js";
 
 const MOVIES_COUNT_PER_STEP = 5;
@@ -14,15 +15,18 @@ export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
     this._renderedMoviesCount = MOVIES_COUNT_PER_STEP;
+    this._moviePresenter = {};
 
     this._mainNavigationComponent = new MainNavigationView();
     this._allMoviesContainerComponent = new AllMoviesContainerView();
     this._allMoviesListComponent = new AllMoviesListView();
     this._moviesContainerComponent = new MoviesContainerView();
-
     this._sortComponent = new SortView();
     this._noMoviesComponent = new NoMoviesView();
     this._loadMoreButtonComponent = new LoadMoreButtonView();
+
+    this._handleMovieChange = this._handleMovieChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
   }
 
@@ -30,6 +34,17 @@ export default class Board {
     this._boardMovies = boardMovies.slice();
     render(this._boardContainer, this._mainNavigationComponent, RenderPosition.AFTERBEGIN);
     this._renderBoard();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._moviePresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  _handleMovieChange(updatedMovie) {
+    this._boardMovies = updateItem(this._boardMovies, updatedMovie);
+    this._moviePresenter[updatedMovie.id].init(updatedMovie);
   }
 
   _renderSort() {
@@ -43,8 +58,9 @@ export default class Board {
   }
 
   _renderMovie(movie) {
-    const moviePresenter = new MoviePresenter(this._moviesContainerComponent);
+    const moviePresenter = new MoviePresenter(this._moviesContainerComponent, this._handleMovieChange, this._handleModeChange);
     moviePresenter.init(movie);
+    this._moviePresenter[movie.id] = moviePresenter;
   }
 
   _renderMovies(from, to) {
@@ -57,7 +73,6 @@ export default class Board {
   }
 
   _handleLoadMoreButtonClick() {
-
     this._renderMovies(this._renderedMoviesCount, this._renderedMoviesCount + MOVIES_COUNT_PER_STEP);
     this._renderedMoviesCount += MOVIES_COUNT_PER_STEP;
 
@@ -70,6 +85,15 @@ export default class Board {
   _renderLoadMoreButton() {
     render(this._allMoviesListComponent, this._loadMoreButtonComponent, RenderPosition.BEFOREEND);
     this._loadMoreButtonComponent.setClickHandler(this._handleLoadMoreButtonClick);
+  }
+
+  _clearMoviesList() {
+    Object
+      .values(this._moviePresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._moviePresenter = {};
+    this._renderedMoviesCount = MOVIES_COUNT_PER_STEP;
+    remove(this._loadMoreButtonComponent);
   }
 
   _renderMoviesList() {

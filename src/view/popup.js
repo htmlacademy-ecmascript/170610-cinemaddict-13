@@ -130,6 +130,7 @@ export default class MovieDetailsPopupView extends AbstractView {
     this._film = film;
 
     this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
+
   }
 
   getTemplate() {
@@ -143,7 +144,6 @@ export default class MovieDetailsPopupView extends AbstractView {
 
   setCloseButtonClickHandler(callback) {
     this._callback.closeButtonClick = callback;
-    console.log(this._callback.closeButtonClick);
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleCloseButtonClick);
   }
 
