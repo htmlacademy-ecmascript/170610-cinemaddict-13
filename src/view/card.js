@@ -24,9 +24,10 @@ const createCardTemplate = (film) => {
 };
 
 export default class CardView extends AbstractView {
-  constructor(film) {
+  constructor(movie) {
     super();
-    this._film = film;
+    this._movie = movie;
+    console.log(this._movie);
 
     this._showPopupClickHandler = this._showPopupClickHandler.bind(this);
 
@@ -37,7 +38,7 @@ export default class CardView extends AbstractView {
   }
 
   getTemplate() {
-    return createCardTemplate(this._film);
+    return createCardTemplate(this._movie);
   }
 
 
