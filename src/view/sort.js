@@ -16,6 +16,10 @@ export default class SortView extends AbstractView {
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
+  getTemplate() {
+    return createSortTemplate();
+  }
+
   _sortTypeChangeHandler(e) {
     if (e.target.tagName !== `A`) {
       return;
@@ -26,11 +30,7 @@ export default class SortView extends AbstractView {
   }
 
   setSortTypeChangeHandler(callback) {
-    this._callback._sortTypeChange = callback;
+    this._callback.sortTypeChange = callback;
     this.getElement().addEventListener(`click`, this._sortTypeChangeHandler);
-  }
-
-  getTemplate() {
-    return createSortTemplate();
   }
 }

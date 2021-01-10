@@ -129,7 +129,7 @@ export default class MovieDetailsPopupView extends AbstractView {
     super();
     this._film = film;
 
-    this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
+    this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
 
   }
 
@@ -137,14 +137,14 @@ export default class MovieDetailsPopupView extends AbstractView {
     return createMovieDetailsPopupTemplate(this._film);
   }
 
-  _handleCloseButtonClick(e) {
+  _closeButtonClickHandler(e) {
     e.preventDefault();
     this._callback.closeButtonClick();
   }
 
   setCloseButtonClickHandler(callback) {
     this._callback.closeButtonClick = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._handleCloseButtonClick);
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
   }
 
 }

@@ -6,8 +6,9 @@ import SortView from "../view/sort.js";
 import NoMoviesView from "../view/no-movies.js";
 import LoadMoreButtonView from "../view/load-more-button.js";
 import MoviePresenter from "./movie.js";
-import {updateItem} from "../utils/common.js";
+import {updateItem, sortByFieldAscending} from "../utils/common.js";
 import {RenderPosition, render, remove} from "../utils/render.js";
+import {SortType} from "../const.js";
 
 const MOVIES_COUNT_PER_STEP = 5;
 
@@ -16,6 +17,7 @@ export default class Board {
     this._boardContainer = boardContainer;
     this._renderedMoviesCount = MOVIES_COUNT_PER_STEP;
     this._moviePresenter = {};
+    this._currentSortType = SortType.DEFAULT;
 
     this._mainNavigationComponent = new MainNavigationView();
     this._allMoviesContainerComponent = new AllMoviesContainerView();
@@ -28,10 +30,12 @@ export default class Board {
     this._handleMovieChange = this._handleMovieChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(boardMovies) {
     this._boardMovies = boardMovies.slice();
+    this._sourcedBoardMovies = boardMovies.slice();
     render(this._boardContainer, this._mainNavigationComponent, RenderPosition.AFTERBEGIN);
     this._renderBoard();
   }
@@ -47,8 +51,34 @@ export default class Board {
     this._moviePresenter[updatedMovie.id].init(updatedMovie);
   }
 
+  _sortMovies(sortType) {
+    switch (sortType) {
+      case SortType.DATE_UP:
+        this._boardMovies.sort(sortByFieldAscending(SortType.DATE_UP));
+        break;
+      case SortType.RATING_UP:
+        this._boardMovies.sort(sortByFieldAscending(SortType.RATING_UP));
+        break;
+      default:
+        this._boardMovies = this._sourcedBoardMovies.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortMovies(sortType);
+    this._clearMoviesList();
+    this._renderMoviesList();
+  }
+
   _renderSort() {
     render(this._boardContainer, this._sortComponent, RenderPosition.BEFOREEND);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderAllMoviesContainer() {
