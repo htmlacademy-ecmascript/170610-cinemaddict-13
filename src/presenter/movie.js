@@ -81,9 +81,7 @@ export default class Movie {
   }
 
   _replaceCardToPopup() {
-    if (this._popupComponent) {
-      render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
-    }
+    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, this._handleEscKeyDown);
     this._changeMode();
     this._mode = Mode.POPUP;
