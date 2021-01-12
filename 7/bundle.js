@@ -739,7 +739,9 @@ class Movie {
   }
 
   _replaceCardToPopup() {
-    Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(siteBodyElement, this._popupComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
+    if (this._popupComponent) {
+      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(siteBodyElement, this._popupComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
+    }
     document.addEventListener(`keydown`, this._handleEscKeyDown);
     this._changeMode();
     this._mode = Mode.POPUP;
@@ -1106,7 +1108,6 @@ class CardView extends _abstract_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(movie) {
     super();
     this._movie = movie;
-    console.log(this._movie);
 
     this._showPopupClickHandler = this._showPopupClickHandler.bind(this);
 
