@@ -27,7 +27,6 @@ export default class CardView extends AbstractView {
   constructor(movie) {
     super();
     this._movie = movie;
-    console.log(this._movie);
 
     this._showPopupClickHandler = this._showPopupClickHandler.bind(this);
 
