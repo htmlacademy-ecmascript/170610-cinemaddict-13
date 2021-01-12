@@ -739,9 +739,7 @@ class Movie {
   }
 
   _replaceCardToPopup() {
-    if (this._popupComponent) {
-      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(siteBodyElement, this._popupComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
-    }
+    Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(siteBodyElement, this._popupComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
     document.addEventListener(`keydown`, this._handleEscKeyDown);
     this._changeMode();
     this._mode = Mode.POPUP;
