@@ -48,11 +48,6 @@ export default class CardView extends AbstractView {
     }
   }
 
-  setShowPopupClickHandler(callback) {
-    this._callback.showPopupClick = callback;
-    this.getElement().addEventListener(`click`, this._showPopupClickHandler);
-  }
-
   _watchlistClickHandler(e) {
     e.preventDefault();
     this._callback.watchlistClick();
@@ -66,6 +61,11 @@ export default class CardView extends AbstractView {
   _favoritesClickHandler(e) {
     e.preventDefault();
     this._callback.favoritesClick();
+  }
+
+  setShowPopupClickHandler(callback) {
+    this._callback.showPopupClick = callback;
+    this.getElement().addEventListener(`click`, this._showPopupClickHandler);
   }
 
   setWatchlistClickHandler(callback) {

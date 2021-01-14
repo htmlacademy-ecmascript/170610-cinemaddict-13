@@ -55,7 +55,6 @@ export default class Movie {
       return;
     }
 
-
     if (this._mode === Mode.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
     }

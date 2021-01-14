@@ -100,6 +100,7 @@ export default class Board {
   }
 
   _renderNoMovies() {
+    render(this._boardContainer, this._noMoviesComponent, RenderPosition.AFTERBEGIN);
   }
 
   _handleLoadMoreButtonClick() {
