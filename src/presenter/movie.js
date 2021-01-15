@@ -28,6 +28,10 @@ export default class Movie {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
 
+    this._handlePopupWatchlistClick = this._handlePopupWatchlistClick.bind(this);
+    this._handlePopupWatchedClick = this._handlePopupWatchedClick.bind(this);
+    this._handlePopupFavoritesClick = this._handlePopupFavoritesClick.bind(this);
+
   }
 
   init(movie) {
@@ -40,15 +44,14 @@ export default class Movie {
     this._popupComponent = new PopupView(movie);
 
     this._cardComponent.setShowPopupClickHandler(this._handleShowPopupClick);
-    this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
-
     this._cardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._cardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._cardComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
-    this._popupComponent.setPopupWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setPopupFavoritesClickHandler(this._handleFavoritesClick);
+    this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
+    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
+    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
+    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
 
     if (prevCardComponent === null || prevPopupComponent === null) {
       render(this._moviesListContainer, this._cardComponent, RenderPosition.AFTERBEGIN);
@@ -139,8 +142,25 @@ export default class Movie {
     );
   }
 
+  _update() {
+    console.log(1);
+  }
+
+
   _handlePopupCloseButtonClick() {
     this._replacePopupToCard();
+  }
+
+  _handlePopupWatchlistClick() {
+    this._update();
+  }
+
+  _handlePopupWatchedClick() {
+    this._update();
+  }
+
+  _handlePopupFavoritesClick() {
+    this._update();
   }
 
 }
