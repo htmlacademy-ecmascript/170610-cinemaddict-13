@@ -21,12 +21,12 @@ export default class Movie {
     this._mode = Mode.DEFAULT;
 
     this._handleShowPopupClick = this._handleShowPopupClick.bind(this);
-    this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
+    this._handlePopupCloseButtonClick = this._handlePopupCloseButtonClick.bind(this);
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
 
-    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
-    this._handleWatchedClick = this._handleWatchedClick.bind(this);
-    this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
+    this._handlePopupWatchlistClick = this._handlePopupWatchlistClick.bind(this);
+    this._handlePopupWatchedClick = this._handlePopupWatchedClick.bind(this);
+    this._handlePopupFavoritesClick = this._handlePopupFavoritesClick.bind(this);
 
   }
 
@@ -40,15 +40,15 @@ export default class Movie {
     this._popupComponent = new PopupView(movie);
 
     this._cardComponent.setShowPopupClickHandler(this._handleShowPopupClick);
-    this._popupComponent.setCloseButtonClickHandler(this._handleCloseButtonClick);
+    this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
 
     this._cardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._cardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._cardComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
-    this._popupComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
+    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
+    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
+    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
 
     if (prevCardComponent === null || prevPopupComponent === null) {
       render(this._moviesListContainer, this._cardComponent, RenderPosition.AFTERBEGIN);
@@ -103,10 +103,6 @@ export default class Movie {
     this._replaceCardToPopup();
   }
 
-  _handleCloseButtonClick() {
-    this._replacePopupToCard();
-  }
-
   _handleWatchlistClick() {
     this._changeData(
         Object.assign(
@@ -141,6 +137,21 @@ export default class Movie {
             }
         )
     );
+  }
+
+
+  _handlePopupCloseButtonClick() {
+    this._replacePopupToCard();
+  }
+
+
+  _handlePopupWatchlistClick() {
+  }
+
+  _handlePopupWatchedClick() {
+  }
+
+  _handlePopupFavoritesClick() {
   }
 
 }
