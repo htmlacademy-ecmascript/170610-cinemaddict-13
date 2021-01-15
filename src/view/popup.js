@@ -147,17 +147,14 @@ export default class PopupView extends AbstractView {
   }
 
   _popupWatchlistClickHandler(e) {
-    e.preventDefault();
     this._callback.popupWatchlistClick();
   }
 
   _popupWatchedClickHandler(e) {
-    e.preventDefault();
     this._callback.popupWatchedClick();
   }
 
   _popupFavoritesClickHandler(e) {
-    e.preventDefault();
     this._callback.popupFavoritesClick();
   }
 
