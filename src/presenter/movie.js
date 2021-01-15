@@ -66,6 +66,18 @@ export default class Movie {
       replace(this._popupComponent, prevPopupComponent);
     }
 
+    if (this._cardComponent._movie.isWatchlist === true) {
+      this._cardComponent.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
+    }
+
+    if (this._cardComponent._movie.isWatched === true) {
+      this._cardComponent.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
+    }
+
+    if (this._cardComponent._movie.isFavorite === true) {
+      this._cardComponent.getElement().querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
+    }
+
     remove(prevCardComponent);
     remove(prevPopupComponent);
 
@@ -106,6 +118,7 @@ export default class Movie {
     this._replaceCardToPopup();
   }
 
+
   _handleWatchlistClick() {
     this._changeData(
         Object.assign(
@@ -145,7 +158,6 @@ export default class Movie {
   _update() {
     console.log(1);
   }
-
 
   _handlePopupCloseButtonClick() {
     this._replacePopupToCard();
