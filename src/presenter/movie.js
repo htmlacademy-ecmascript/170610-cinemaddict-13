@@ -54,7 +54,7 @@ export default class Movie {
     this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
 
     if (prevCardComponent === null || prevPopupComponent === null) {
-      render(this._moviesListContainer, this._cardComponent, RenderPosition.AFTERBEGIN);
+      render(this._moviesListContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
     }
 
