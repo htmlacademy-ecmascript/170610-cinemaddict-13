@@ -44,11 +44,13 @@ export default class Movie {
     this._popupComponent = new PopupView(movie);
 
     this._cardComponent.setShowPopupClickHandler(this._handleShowPopupClick);
+
     this._cardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._cardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._cardComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
     this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
+
     this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
     this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
     this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
@@ -66,21 +68,12 @@ export default class Movie {
       replace(this._popupComponent, prevPopupComponent);
     }
 
-    if (this._cardComponent._movie.isWatchlist === true) {
-      this._cardComponent.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).classList.toggle(`film-card__controls-item--active`);
-    }
-
-    if (this._cardComponent._movie.isWatched === true) {
-      this._cardComponent.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).classList.toggle(`film-card__controls-item--active`);
-    }
-
-    if (this._cardComponent._movie.isFavorite === true) {
-      this._cardComponent.getElement().querySelector(`.film-card__controls-item--favorite`).classList.toggle(`film-card__controls-item--active`);
-    }
+    console.log(this._cardComponent._movie.isWatchlist);
+    console.log(this._cardComponent._movie.isWatched);
+    console.log(this._cardComponent._movie.isFavorite);
 
     remove(prevCardComponent);
     remove(prevPopupComponent);
-
   }
 
   destroy() {
@@ -118,7 +111,6 @@ export default class Movie {
     this._replaceCardToPopup();
   }
 
-
   _handleWatchlistClick() {
     this._changeData(
         Object.assign(
@@ -155,12 +147,12 @@ export default class Movie {
     );
   }
 
-  _update() {
-    console.log(1);
-  }
-
   _handlePopupCloseButtonClick() {
     this._replacePopupToCard();
+  }
+
+  _update() {
+    console.log(1);
   }
 
   _handlePopupWatchlistClick() {
