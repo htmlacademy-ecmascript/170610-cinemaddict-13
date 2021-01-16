@@ -725,6 +725,7 @@ class Movie {
 
     if (this._mode === Mode.POPUP) {
       Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["replace"])(this._cardComponent, prevCardComponent);
+      console.log(333);
     }
 
     /*    console.log(this._cardComponent._movie.isWatchlist);
