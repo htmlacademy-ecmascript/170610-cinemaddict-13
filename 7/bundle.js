@@ -594,6 +594,7 @@ class Board {
   }
 
   _renderNoMovies() {
+    Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_9__["render"])(this._boardContainer, this._noMoviesComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_9__["RenderPosition"].AFTERBEGIN);
   }
 
   _handleLoadMoreButtonClick() {
@@ -679,12 +680,16 @@ class Movie {
     this._mode = Mode.DEFAULT;
 
     this._handleShowPopupClick = this._handleShowPopupClick.bind(this);
-    this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
+    this._handlePopupCloseButtonClick = this._handlePopupCloseButtonClick.bind(this);
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
 
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
+
+    this._handlePopupWatchlistClick = this._handlePopupWatchlistClick.bind(this);
+    this._handlePopupWatchedClick = this._handlePopupWatchedClick.bind(this);
+    this._handlePopupFavoritesClick = this._handlePopupFavoritesClick.bind(this);
 
   }
 
@@ -698,33 +703,36 @@ class Movie {
     this._popupComponent = new _view_popup_js__WEBPACK_IMPORTED_MODULE_1__["default"](movie);
 
     this._cardComponent.setShowPopupClickHandler(this._handleShowPopupClick);
-    this._popupComponent.setCloseButtonClickHandler(this._handleCloseButtonClick);
 
     this._cardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._cardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._cardComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
-    this._popupComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
+    this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
+
+    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
+    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
+    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
 
     if (prevCardComponent === null || prevPopupComponent === null) {
-      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(this._moviesListContainer, this._cardComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].AFTERBEGIN);
+      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(this._moviesListContainer, this._cardComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
       return;
     }
-
 
     if (this._mode === Mode.DEFAULT) {
       Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["replace"])(this._cardComponent, prevCardComponent);
     }
 
     if (this._mode === Mode.POPUP) {
-      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["replace"])(this._popupComponent, prevPopupComponent);
+      Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["replace"])(this._cardComponent, prevCardComponent);
     }
+
+    console.log(this._cardComponent._movie.isWatchlist);
+    console.log(this._cardComponent._movie.isWatched);
+    console.log(this._cardComponent._movie.isFavorite);
 
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevCardComponent);
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevPopupComponent);
-
   }
 
   destroy() {
@@ -762,10 +770,6 @@ class Movie {
     this._replaceCardToPopup();
   }
 
-  _handleCloseButtonClick() {
-    this._replacePopupToCard();
-  }
-
   _handleWatchlistClick() {
     this._changeData(
         Object.assign(
@@ -799,6 +803,46 @@ class Movie {
               isFavorite: !this._movie.isFavorite
             }
         )
+    );
+  }
+
+  _handlePopupCloseButtonClick() {
+    this._replacePopupToCard();
+  }
+
+  _handlePopupWatchlistClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isWatchlist: !this._movie.isWatchlist
+        }
+      )
+    );
+  }
+
+  _handlePopupWatchedClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isWatched: !this._movie.isWatched
+        }
+      )
+    );
+  }
+
+  _handlePopupFavoritesClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isFavorite: !this._movie.isFavorite
+        }
+      )
     );
   }
 
@@ -1081,7 +1125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const createCardTemplate = (film) => {
 
-  const {title, rating, date, duration, genre, poster, description, comments} = film;
+  const {title, rating, date, duration, genre, poster, description, isWatchlist, isWatched, isFavorite, comments} = film;
 
   return `<article class="film-card">
           <h3 class="film-card__title">${title.translation}</h3>
@@ -1095,9 +1139,9 @@ const createCardTemplate = (film) => {
           <p class="film-card__description">${description}.</p>
           <a class="film-card__comments">${comments} comments</a>
           <div class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite" type="button">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${ isWatchlist ? `film-card__controls-item--active` : ``}" type="button">Add to watchlist</button>
+            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${ isWatched ? `film-card__controls-item--active` : ``}" type="button">Mark as watched</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite ${ isFavorite ? `film-card__controls-item--active` : ``}" type="button">Mark as favorite</button>
           </div>
         </article>`;
 };
@@ -1119,17 +1163,11 @@ class CardView extends _abstract_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return createCardTemplate(this._movie);
   }
 
-
   _showPopupClickHandler(e) {
     e.preventDefault();
     if (e.target.classList.contains(`film-card__poster`) || e.target.classList.contains(`film-card__title`) || e.target.classList.contains(`film-card__comments`)) {
       this._callback.showPopupClick();
     }
-  }
-
-  setShowPopupClickHandler(callback) {
-    this._callback.showPopupClick = callback;
-    this.getElement().addEventListener(`click`, this._showPopupClickHandler);
   }
 
   _watchlistClickHandler(e) {
@@ -1145,6 +1183,11 @@ class CardView extends _abstract_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   _favoritesClickHandler(e) {
     e.preventDefault();
     this._callback.favoritesClick();
+  }
+
+  setShowPopupClickHandler(callback) {
+    this._callback.showPopupClick = callback;
+    this.getElement().addEventListener(`click`, this._showPopupClickHandler);
   }
 
   setWatchlistClickHandler(callback) {
@@ -1339,7 +1382,7 @@ class NoMoviesView extends _abstract_js__WEBPACK_IMPORTED_MODULE_0__["default"] 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MovieDetailsPopupView; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PopupView; });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _abstract_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abstract.js */ "./src/view/abstract.js");
@@ -1348,7 +1391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const createMovieDetailsPopupTemplate = (film) => {
 
-  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite,} = film;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -1416,13 +1459,13 @@ const createMovieDetailsPopupTemplate = (film) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" ${ isWatchlist ? `checked` : ``} class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" ${ isWatched ? `checked` : ``} class="film-details__control-input visually-hidden" id="watched" name="watched">
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" ${ isFavorite ? `checked` : ``} class="film-details__control-input visually-hidden" id="favorite" name="favorite">
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -1469,16 +1512,16 @@ const createMovieDetailsPopupTemplate = (film) => {
 </section>`;
 };
 
-class MovieDetailsPopupView extends _abstract_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class PopupView extends _abstract_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
   constructor(film) {
     super();
     this._film = film;
 
-    this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
+    this._popupCloseButtonClickHandler = this._popupCloseButtonClickHandler.bind(this);
 
-    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
-    this._watchedClickHandler = this._watchedClickHandler.bind(this);
-    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._popupWatchlistClickHandler = this._popupWatchlistClickHandler.bind(this);
+    this._popupWatchedClickHandler = this._popupWatchedClickHandler.bind(this);
+    this._popupFavoritesClickHandler = this._popupFavoritesClickHandler.bind(this);
 
   }
 
@@ -1486,44 +1529,41 @@ class MovieDetailsPopupView extends _abstract_js__WEBPACK_IMPORTED_MODULE_1__["d
     return createMovieDetailsPopupTemplate(this._film);
   }
 
-  _closeButtonClickHandler(e) {
+  _popupCloseButtonClickHandler(e) {
     e.preventDefault();
-    this._callback.closeButtonClick();
+    this._callback.popupCloseButtonClick();
+  }
+
+  _popupWatchlistClickHandler(e) {
+    this._callback.popupWatchlistClick();
+  }
+
+  _popupWatchedClickHandler(e) {
+    this._callback.popupWatchedClick();
+  }
+
+  _popupFavoritesClickHandler(e) {
+    this._callback.popupFavoritesClick();
   }
 
   setCloseButtonClickHandler(callback) {
-    this._callback.closeButtonClick = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
+    this._callback.popupCloseButtonClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._popupCloseButtonClickHandler);
   }
 
-  _watchlistClickHandler(e) {
-    e.preventDefault();
-    this._callback.watchlistClick();
+  setPopupWatchlistClickHandler(callback) {
+    this._callback.popupWatchlistClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._popupWatchlistClickHandler);
   }
 
-  _watchedClickHandler(e) {
-    e.preventDefault();
-    this._callback.watchedClick();
+  setPopupWatchedClickHandler(callback) {
+    this._callback.popupWatchedClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._popupWatchedClickHandler);
   }
 
-  _favoritesClickHandler(e) {
-    e.preventDefault();
-    this._callback.favoritesClick();
-  }
-
-  setWatchlistClickHandler(callback) {
-    this._callback.watchlistClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchlistClickHandler);
-  }
-
-  setWatchedClickHandler(callback) {
-    this._callback.watchedClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._watchedClickHandler);
-  }
-
-  setFavoritesClickHandler(callback) {
-    this._callback.favoritesClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+  setPopupFavoritesClickHandler(callback) {
+    this._callback.popupFavoritesClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._popupFavoritesClickHandler);
   }
 
 }
