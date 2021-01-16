@@ -2,7 +2,7 @@ import AbstractView from "./abstract.js";
 
 const createCardTemplate = (film) => {
 
-  const {title, rating, date, duration, genre, poster, description, comments} = film;
+  const {title, rating, date, duration, genre, poster, description, isWatchlist, isWatched, isFavorite, comments} = film;
 
   return `<article class="film-card">
           <h3 class="film-card__title">${title.translation}</h3>
@@ -16,9 +16,9 @@ const createCardTemplate = (film) => {
           <p class="film-card__description">${description}.</p>
           <a class="film-card__comments">${comments} comments</a>
           <div class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite" type="button">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${ isWatchlist ? `film-card__controls-item--active` : ``}" type="button">Add to watchlist</button>
+            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${ isWatched ? `film-card__controls-item--active` : ``}" type="button">Mark as watched</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite ${ isFavorite ? `film-card__controls-item--active` : ``}" type="button">Mark as favorite</button>
           </div>
         </article>`;
 };
@@ -39,7 +39,6 @@ export default class CardView extends AbstractView {
   getTemplate() {
     return createCardTemplate(this._movie);
   }
-
 
   _showPopupClickHandler(e) {
     e.preventDefault();
