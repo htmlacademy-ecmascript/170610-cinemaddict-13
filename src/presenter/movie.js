@@ -68,12 +68,12 @@ export default class Movie {
       replace(this._cardComponent, prevCardComponent);
     }
 
-    console.log(this._cardComponent._movie.isWatchlist);
+    /*    console.log(this._cardComponent._movie.isWatchlist);
     console.log(this._cardComponent._movie.isWatched);
-    console.log(this._cardComponent._movie.isFavorite);
+    console.log(this._cardComponent._movie.isFavorite);*/
 
     remove(prevCardComponent);
-    remove(prevPopupComponent);
+    /*    remove(prevPopupComponent);*/
   }
 
   destroy() {
@@ -153,37 +153,37 @@ export default class Movie {
 
   _handlePopupWatchlistClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isWatchlist: !this._movie.isWatchlist
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatchlist: !this._movie.isWatchlist
+            }
+        )
     );
   }
 
   _handlePopupWatchedClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isWatched: !this._movie.isWatched
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatched: !this._movie.isWatched
+            }
+        )
     );
   }
 
   _handlePopupFavoritesClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isFavorite: !this._movie.isFavorite
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isFavorite: !this._movie.isFavorite
+            }
+        )
     );
   }
 

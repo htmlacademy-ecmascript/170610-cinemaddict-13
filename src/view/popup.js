@@ -3,7 +3,7 @@ import AbstractView from "./abstract.js";
 
 const createMovieDetailsPopupTemplate = (film) => {
 
-  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite,} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite} = film;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -146,15 +146,15 @@ export default class PopupView extends AbstractView {
     this._callback.popupCloseButtonClick();
   }
 
-  _popupWatchlistClickHandler(e) {
+  _popupWatchlistClickHandler() {
     this._callback.popupWatchlistClick();
   }
 
-  _popupWatchedClickHandler(e) {
+  _popupWatchedClickHandler() {
     this._callback.popupWatchedClick();
   }
 
-  _popupFavoritesClickHandler(e) {
+  _popupFavoritesClickHandler() {
     this._callback.popupFavoritesClick();
   }
 
