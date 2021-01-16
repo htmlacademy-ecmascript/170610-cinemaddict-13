@@ -65,7 +65,7 @@ export default class Movie {
     }
 
     if (this._mode === Mode.POPUP) {
-      replace(this._popupComponent, prevPopupComponent);
+      replace(this._cardComponent, prevCardComponent);
     }
 
     console.log(this._cardComponent._movie.isWatchlist);
@@ -151,20 +151,40 @@ export default class Movie {
     this._replacePopupToCard();
   }
 
-  _update() {
-    console.log(1);
-  }
-
   _handlePopupWatchlistClick() {
-    this._update();
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isWatchlist: !this._movie.isWatchlist
+        }
+      )
+    );
   }
 
   _handlePopupWatchedClick() {
-    this._update();
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isWatched: !this._movie.isWatched
+        }
+      )
+    );
   }
 
   _handlePopupFavoritesClick() {
-    this._update();
+    this._changeData(
+      Object.assign(
+        {},
+        this._movie,
+        {
+          isFavorite: !this._movie.isFavorite
+        }
+      )
+    );
   }
 
 }
