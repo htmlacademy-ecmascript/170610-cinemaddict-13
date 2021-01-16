@@ -62,11 +62,12 @@ export default class Movie {
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
+      console.log(`Карточка обновлена Mode.DEFAULT`);
     }
 
     if (this._mode === Mode.POPUP) {
       replace(this._cardComponent, prevCardComponent);
-      console.log(333);
+      console.log(`Карточка обновлена Mode.POPUP`);
     }
 
     /*    console.log(this._cardComponent._movie.isWatchlist);
