@@ -727,12 +727,12 @@ class Movie {
       Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["replace"])(this._cardComponent, prevCardComponent);
     }
 
-    console.log(this._cardComponent._movie.isWatchlist);
+    /*    console.log(this._cardComponent._movie.isWatchlist);
     console.log(this._cardComponent._movie.isWatched);
-    console.log(this._cardComponent._movie.isFavorite);
+    console.log(this._cardComponent._movie.isFavorite);*/
 
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevCardComponent);
-    Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevPopupComponent);
+    /*    remove(prevPopupComponent);*/
   }
 
   destroy() {
@@ -812,37 +812,37 @@ class Movie {
 
   _handlePopupWatchlistClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isWatchlist: !this._movie.isWatchlist
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatchlist: !this._movie.isWatchlist
+            }
+        )
     );
   }
 
   _handlePopupWatchedClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isWatched: !this._movie.isWatched
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isWatched: !this._movie.isWatched
+            }
+        )
     );
   }
 
   _handlePopupFavoritesClick() {
     this._changeData(
-      Object.assign(
-        {},
-        this._movie,
-        {
-          isFavorite: !this._movie.isFavorite
-        }
-      )
+        Object.assign(
+            {},
+            this._movie,
+            {
+              isFavorite: !this._movie.isFavorite
+            }
+        )
     );
   }
 
@@ -1391,7 +1391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const createMovieDetailsPopupTemplate = (film) => {
 
-  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite,} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite} = film;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -1534,15 +1534,15 @@ class PopupView extends _abstract_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
     this._callback.popupCloseButtonClick();
   }
 
-  _popupWatchlistClickHandler(e) {
+  _popupWatchlistClickHandler() {
     this._callback.popupWatchlistClick();
   }
 
-  _popupWatchedClickHandler(e) {
+  _popupWatchedClickHandler() {
     this._callback.popupWatchedClick();
   }
 
-  _popupFavoritesClickHandler(e) {
+  _popupFavoritesClickHandler() {
     this._callback.popupFavoritesClick();
   }
 
