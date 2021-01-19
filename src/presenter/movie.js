@@ -32,6 +32,10 @@ export default class Movie {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
 
+    this._handlePopupWatchlistClick = this._handleWatchlistClick.bind(this);
+    this._handlePopupWatchedClick = this._handleWatchedClick.bind(this);
+    this._handlePopupFavoritesClick = this._handleFavoritesClick.bind(this);
+
   }
 
   init(movie) {
@@ -51,6 +55,10 @@ export default class Movie {
 
     this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
 
+    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
+    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
+    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
+
 
     if (prevCardComponent === null) {
       render(this._moviesListContainer, this._cardComponent, RenderPosition.BEFOREEND);
@@ -59,11 +67,13 @@ export default class Movie {
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
+      console.log(`Карточка обновлена Mode.DEFAULT`);
     }
 
     if (this._mode === Mode.POPUP) {
       replace(this._cardComponent, prevCardComponent);
       replace(this._popupComponent, prevPopupComponent);
+      console.log(`Карточка обновлена Mode.POPUP`);
     }
   }
 
@@ -141,42 +151,6 @@ export default class Movie {
 
   _handlePopupCloseButtonClick() {
     this._closePopup();
-  }
-
-  _handlePopupWatchlistClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isWatchlist: !this._movie.isWatchlist
-            }
-        )
-    );
-  }
-
-  _handlePopupWatchedClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isWatched: !this._movie.isWatched
-            }
-        )
-    );
-  }
-
-  _handlePopupFavoritesClick() {
-    this._changeData(
-        Object.assign(
-            {},
-            this._movie,
-            {
-              isFavorite: !this._movie.isFavorite
-            }
-        )
-    );
   }
 
 }

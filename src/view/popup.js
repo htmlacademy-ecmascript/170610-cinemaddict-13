@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import AbstractView from "./abstract.js";
 
-const createMovieDetailsPopupTemplate = (film) => {
+const createMovieDetailsPopupTemplate = (movie) => {
 
-  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite} = movie;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -131,9 +131,9 @@ export default class PopupView extends AbstractView {
 
     this._popupCloseButtonClickHandler = this._popupCloseButtonClickHandler.bind(this);
 
-    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
-    this._watchedClickHandler = this._watchedClickHandler.bind(this);
-    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._popupWatchlistClickHandler = this._popupWatchlistClickHandler.bind(this);
+    this._popupWatchedClickHandler = this._popupWatchedClickHandler.bind(this);
+    this._popupFavoritesClickHandler = this._popupFavoritesClickHandler.bind(this);
 
   }
 
@@ -146,15 +146,15 @@ export default class PopupView extends AbstractView {
     this._callback.popupCloseButtonClick();
   }
 
-  _watchlistClickHandler() {
+  _popupWatchlistClickHandler() {
     this._callback.popupWatchlistClick();
   }
 
-  _watchedClickHandler() {
+  _popupWatchedClickHandler() {
     this._callback.popupWatchedClick();
   }
 
-  _favoritesClickHandler() {
+  _popupFavoritesClickHandler() {
     this._callback.popupFavoritesClick();
   }
 
@@ -163,19 +163,19 @@ export default class PopupView extends AbstractView {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._popupCloseButtonClickHandler);
   }
 
-  setWatchlistClickHandler(callback) {
+  setPopupWatchlistClickHandler(callback) {
     this._callback.popupWatchlistClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._popupWatchlistClickHandler);
   }
 
-  setWatchedClickHandler(callback) {
+  setPopupWatchedClickHandler(callback) {
     this._callback.popupWatchedClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._watchedClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._popupWatchedClickHandler);
   }
 
-  setFavoritesClickHandler(callback) {
+  setPopupFavoritesClickHandler(callback) {
     this._callback.popupFavoritesClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._popupFavoritesClickHandler);
   }
 
 }
