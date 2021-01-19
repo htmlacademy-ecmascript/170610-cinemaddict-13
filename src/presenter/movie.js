@@ -7,6 +7,10 @@ const Mode = {
   POPUP: `POPUP`
 };
 
+const Keys = {
+  ESC: `Escape` || `Esc`
+};
+
 const siteBodyElement = document.querySelector(`body`);
 
 export default class Movie {
@@ -28,10 +32,6 @@ export default class Movie {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
 
-    this._handlePopupWatchlistClick = this._handlePopupWatchlistClick.bind(this);
-    this._handlePopupWatchedClick = this._handlePopupWatchedClick.bind(this);
-    this._handlePopupFavoritesClick = this._handlePopupFavoritesClick.bind(this);
-
   }
 
   init(movie) {
@@ -51,31 +51,20 @@ export default class Movie {
 
     this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
 
-    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
-    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
-    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
 
-    if (prevCardComponent === null || prevPopupComponent === null) {
+    if (prevCardComponent === null) {
       render(this._moviesListContainer, this._cardComponent, RenderPosition.BEFOREEND);
       return;
     }
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
-      console.log(`Карточка обновлена Mode.DEFAULT`);
     }
 
     if (this._mode === Mode.POPUP) {
       replace(this._cardComponent, prevCardComponent);
-      console.log(`Карточка обновлена Mode.POPUP`);
+      replace(this._popupComponent, prevPopupComponent);
     }
-
-    /*    console.log(this._cardComponent._movie.isWatchlist);
-    console.log(this._cardComponent._movie.isWatched);
-    console.log(this._cardComponent._movie.isFavorite);*/
-
-    remove(prevCardComponent);
-    /*    remove(prevPopupComponent);*/
   }
 
   destroy() {
@@ -85,32 +74,33 @@ export default class Movie {
 
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
-      this._replacePopupToCard();
+      this._closePopup();
     }
   }
 
-  _replaceCardToPopup() {
+  _openPopup() {
     render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
+
     document.addEventListener(`keydown`, this._handleEscKeyDown);
     this._changeMode();
     this._mode = Mode.POPUP;
   }
 
-  _replacePopupToCard() {
+  _closePopup() {
     this._popupComponent.getElement().remove();
     document.removeEventListener(`keydown`, this._handleEscKeyDown);
     this._mode = Mode.DEFAULT;
   }
 
   _handleEscKeyDown(e) {
-    if (e.key === `Escape` || e.key === `Esc`) {
+    if (e.key === Keys.ESC) {
       e.preventDefault();
-      this._replacePopupToCard();
+      this._closePopup();
     }
   }
 
   _handleShowPopupClick() {
-    this._replaceCardToPopup();
+    this._openPopup();
   }
 
   _handleWatchlistClick() {
@@ -150,7 +140,7 @@ export default class Movie {
   }
 
   _handlePopupCloseButtonClick() {
-    this._replacePopupToCard();
+    this._closePopup();
   }
 
   _handlePopupWatchlistClick() {
@@ -190,5 +180,3 @@ export default class Movie {
   }
 
 }
-
-
