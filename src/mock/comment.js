@@ -1,4 +1,4 @@
-import {generateName, generateDescription, generateDate} from "./film";
+import {generateName, generateDescription, generateDate} from "./movie";
 import {getRandomIndex} from "../utils/common.js";
 
 const generateEmotion = () => {

@@ -1,17 +1,17 @@
 import AbstractView from "./abstract.js";
 
-const createShowMoreButtonTemplate = () => {
+const createLoadMoreButtonTemplate = () => {
   return `<button class="films-list__show-more">Show more</button>`;
 };
 
-export default class ShowMoreButtonView extends AbstractView {
+export default class LoadMoreButtonView extends AbstractView {
   constructor() {
     super();
     this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
-    return createShowMoreButtonTemplate();
+    return createLoadMoreButtonTemplate();
   }
 
   _clickHandler(e) {

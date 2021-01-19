@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import AbstractView from "./abstract.js";
 
-const createFilmDetailsPopupTemplate = (film) => {
+const createMovieDetailsPopupTemplate = (movie) => {
 
-  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating} = film;
+  const {title, date, rating, duration, genre, poster, description, director, writers, actors, country, ageRating, isWatchlist, isWatched, isFavorite} = movie;
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -71,13 +71,13 @@ const createFilmDetailsPopupTemplate = (film) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" ${ isWatchlist ? `checked` : ``} class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" ${ isWatched ? `checked` : ``} class="film-details__control-input visually-hidden" id="watched" name="watched">
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" ${ isFavorite ? `checked` : ``} class="film-details__control-input visually-hidden" id="favorite" name="favorite">
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -124,13 +124,58 @@ const createFilmDetailsPopupTemplate = (film) => {
 </section>`;
 };
 
-export default class FilmDetailsPopupView extends AbstractView {
-  constructor(film) {
+export default class PopupView extends AbstractView {
+  constructor(movie) {
     super();
-    this._film = film;
+    this._movie = movie;
+
+    this._popupCloseButtonClickHandler = this._popupCloseButtonClickHandler.bind(this);
+
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+
   }
 
   getTemplate() {
-    return createFilmDetailsPopupTemplate(this._film);
+    return createMovieDetailsPopupTemplate(this._movie);
   }
+
+  _popupCloseButtonClickHandler(e) {
+    e.preventDefault();
+    this._callback.popupCloseButtonClick();
+  }
+
+  _watchlistClickHandler() {
+    this._callback.popupWatchlistClick();
+  }
+
+  _watchedClickHandler() {
+    this._callback.popupWatchedClick();
+  }
+
+  _favoritesClickHandler() {
+    this._callback.popupFavoritesClick();
+  }
+
+  setCloseButtonClickHandler(callback) {
+    this._callback.popupCloseButtonClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._popupCloseButtonClickHandler);
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.popupWatchlistClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+  }
+
+  setWatchedClickHandler(callback) {
+    this._callback.popupWatchedClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._watchedClickHandler);
+  }
+
+  setFavoritesClickHandler(callback) {
+    this._callback.popupFavoritesClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+  }
+
 }
