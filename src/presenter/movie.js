@@ -32,10 +32,6 @@ export default class Movie {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
 
-    this._handlePopupWatchlistClick = this._handleWatchlistClick.bind(this);
-    this._handlePopupWatchedClick = this._handleWatchedClick.bind(this);
-    this._handlePopupFavoritesClick = this._handleFavoritesClick.bind(this);
-
   }
 
   init(movie) {
@@ -55,9 +51,9 @@ export default class Movie {
 
     this._popupComponent.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
 
-    this._popupComponent.setPopupWatchlistClickHandler(this._handlePopupWatchlistClick);
-    this._popupComponent.setPopupWatchedClickHandler(this._handlePopupWatchedClick);
-    this._popupComponent.setPopupFavoritesClickHandler(this._handlePopupFavoritesClick);
+    this._popupComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._popupComponent.setWatchedClickHandler(this._handleWatchedClick);
+    this._popupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
 
 
     if (prevCardComponent === null) {
@@ -67,13 +63,11 @@ export default class Movie {
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
-      console.log(`Карточка обновлена Mode.DEFAULT`);
     }
 
     if (this._mode === Mode.POPUP) {
       replace(this._cardComponent, prevCardComponent);
       replace(this._popupComponent, prevPopupComponent);
-      console.log(`Карточка обновлена Mode.POPUP`);
     }
   }
 
