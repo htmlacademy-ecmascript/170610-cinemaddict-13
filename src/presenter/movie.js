@@ -84,7 +84,7 @@ export default class Movie {
 
   _openPopup() {
     render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
-
+    siteBodyElement.classList.add(`hide-overflow`);
     document.addEventListener(`keydown`, this._handleEscKeyDown);
     this._changeMode();
     this._mode = Mode.POPUP;
@@ -92,6 +92,7 @@ export default class Movie {
 
   _closePopup() {
     this._popupComponent.getElement().remove();
+    siteBodyElement.classList.remove(`hide-overflow`);
     document.removeEventListener(`keydown`, this._handleEscKeyDown);
     this._mode = Mode.DEFAULT;
   }
